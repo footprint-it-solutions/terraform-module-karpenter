@@ -19,7 +19,7 @@ spec:
   blockDeviceMappings:
     - deviceName: /dev/xvda
       ebs:
-        volumeSize: {{ .Values.volumeSize }} # 60Gi
+        volumeSize: {{ .Values.volumeSize }}
         volumeType: gp3
         deleteOnTermination: true
 
@@ -44,6 +44,6 @@ spec:
   blockDeviceMappings:
     - deviceName: /dev/xvda
       ebs:
-        volumeSize: {{ .Values.volumeSize }} # 60Gi
+        volumeSize: {{ .Values.volumeSize }}
         volumeType: gp3
         deleteOnTermination: true

@@ -25,15 +25,15 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
-      expireAfter: {{ .Values.expireAfter }} # 168h or 7 days
+      expireAfter: {{ .Values.expireAfter }}
       nodeClassRef:
         group: karpenter.k8s.aws
         kind: EC2NodeClass
         name: al2023
       kubelet:
-        # Trigger Garbage Collection at 70% to prevent disk pressure (eviction usually starts at 85%)
+        # High threshold for Garbage Collection (GC) to prevent disk pressure (eviction usually starts at 85%)
         imageGCHighThresholdPercent: {{ .Values.imageGCHighThresholdPercent }}
-        # Target 50% usage after GC to ensure ample space for new images
+        # Low threshold for GC to ensure ample space for new images
         imageGCLowThresholdPercent: {{ .Values.imageGCLowThresholdPercent }}
   limits:
     cpu: 100
@@ -68,7 +68,7 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
-      expireAfter: {{ .Values.expireAfter }} # 168h or 7 days
+      expireAfter: {{ .Values.expireAfter }}
       nodeClassRef:
         group: karpenter.k8s.aws
         kind: EC2NodeClass

@@ -56,5 +56,5 @@ variable "node_security_group_id" {
 variable "volume_size" {
   description = "EBS volume size for Karpenter nodes in GiB"
   type        = string
-  default     = "60Gi"
+  default     = "40Gi"
 }
