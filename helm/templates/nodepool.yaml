@@ -25,7 +25,7 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
-      expireAfter: {{ .Values.expireAfter }} # 168h # 7 days
+      expireAfter: {{ .Values.expireAfter }} # 168h or 7 days
       nodeClassRef:
         group: karpenter.k8s.aws
         kind: EC2NodeClass
