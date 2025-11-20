@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-logging
+data:
+  aws.log.group: /aws/eks/{{ .Values.clusterName }}/cluster
+  aws.log.region: {{ .Values.awsRegion }}
+  aws.log.stream.prefix: fargate-
