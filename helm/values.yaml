@@ -1,12 +1,12 @@
 ---
 blockDeviceMappings:
   al2023:
-    "/dev/xvda":
+    /dev/xvda:
       volumeType: gp3
   bottlerocket:
-    "/dev/xvda":
-      volumeSize: "8Gi"
+    /dev/xvda:
+      volumeSize: 8Gi
       volumeType: gp3
-    "/dev/xvdb":
-      volumeSize: "40Gi"
+    /dev/xvdb:
+      volumeSize: 40Gi
       volumeType: gp3
