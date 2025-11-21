@@ -66,6 +66,7 @@ resource "helm_release" "extras" {
   ]
 
   values = [
+    file("${path.module}/values.yaml"),
     yamlencode(merge(
       {
         expireAfter                  = var.expire_after
