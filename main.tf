@@ -56,28 +56,26 @@ resource "helm_release" "extras" {
       value = var.aws_region
     },
     {
-      name  = "expireAfter"
-      value = var.expire_after
-    },
-    {
-      name  = "imageGCHighThresholdPercent"
-      value = var.image_gc_high_threshold_percent
-    },
-    {
-      name  = "imageGCLowThresholdPercent"
-      value = var.image_gc_low_threshold_percent
-    },
-    {
       name  = "serviceAccountName"
       value = var.service_account_name
     },
     {
       name  = "nodeSecurityGroupId"
       value = var.node_security_group_id
-    },
-    {
-      name  = "volumeSize"
-      value = var.volume_size
     }
+  ]
+
+  values = [
+    file("${path.module}/helm/values.yaml"),
+    <<-EOT
+---
+expireAfter: ${var.expire_after}
+imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
+imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
+volumeSize: ${var.volume_size}
+%{ if var.block_device_mappings != "" ~}
+${var.block_device_mappings}
+%{ endif ~}
+    EOT
   ]
 }

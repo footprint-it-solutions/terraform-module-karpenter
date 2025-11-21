@@ -17,11 +17,13 @@ spec:
   amiSelectorTerms:
     - alias: al2023@v20251007
   blockDeviceMappings:
-    - deviceName: /dev/xvda
+    {{- range $deviceName, $config := index .Values.blockDeviceMappings "al2023" }}
+    - deviceName: {{ $deviceName | quote }}
       ebs:
-        volumeSize: {{ .Values.volumeSize }}
-        volumeType: gp3
-        deleteOnTermination: true
+        volumeSize: {{ default $.Values.volumeSize $config.volumeSize }}
+        volumeType: {{ default "gp3" $config.volumeType }}
+        deleteOnTermination: {{ default true $config.deleteOnTermination }}
+    {{- end }}
 
 ---
 apiVersion: karpenter.k8s.aws/v1
@@ -42,8 +44,10 @@ spec:
   amiSelectorTerms:
     - alias: bottlerocket@1.50.0
   blockDeviceMappings:
-    - deviceName: /dev/xvda
+    {{- range $deviceName, $config := index .Values.blockDeviceMappings "bottlerocket" }}
+    - deviceName: {{ $deviceName | quote }}
       ebs:
-        volumeSize: {{ .Values.volumeSize }}
-        volumeType: gp3
-        deleteOnTermination: true
+        volumeSize: {{ default $.Values.volumeSize $config.volumeSize }}
+        volumeType: {{ default "gp3" $config.volumeType }}
+        deleteOnTermination: {{ default true $config.deleteOnTermination }}
+    {{- end }}
