@@ -20,6 +20,12 @@ At release time, move the entries from here to a new release section.
 
 ### Removals
 
+## [1.1.1] - 2025-11-21
+
+### Changed
+
+- Bump chart version to ensure latest manifests are updated
+
 ## [1.1.0] - 2025-11-21
 
 ### Added
