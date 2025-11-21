@@ -16,6 +16,12 @@ spec:
   amiFamily: AL2023
   amiSelectorTerms:
     - alias: al2023@v20251007
+  blockDeviceMappings:
+    - deviceName: /dev/xvda
+      ebs:
+        volumeSize: {{ .Values.volumeSize }}
+        volumeType: gp3
+        deleteOnTermination: true
 
 ---
 apiVersion: karpenter.k8s.aws/v1
@@ -35,3 +41,9 @@ spec:
   amiFamily: Bottlerocket
   amiSelectorTerms:
     - alias: bottlerocket@1.50.0
+  blockDeviceMappings:
+    - deviceName: /dev/xvda
+      ebs:
+        volumeSize: {{ .Values.volumeSize }}
+        volumeType: gp3
+        deleteOnTermination: true

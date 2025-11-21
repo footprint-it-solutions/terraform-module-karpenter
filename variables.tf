@@ -13,6 +13,24 @@ variable "aws_region" {
   type        = string
 }
 
+variable "expire_after" {
+  description = "This ensures nodes are recycled weekly, preventing the accumulation of stale images over long periods."
+  type        = string
+  default     = "168h" # 7 days
+}
+
+variable "image_gc_high_threshold_percent" {
+  description = "Garbage collection starts at 70% to prevent disk pressure (eviction usually starts at 85%)"
+  type        = number
+  default     = 70
+}
+
+variable "image_gc_low_threshold_percent" {
+  description = "Garbage collection targets 50% usage after GC to ensure ample space for new images"
+  type        = number
+  default     = 50
+}
+
 variable "oidc_provider" {
   description = "The OIDC provider URL"
   type        = string
@@ -33,4 +51,10 @@ variable "iam_permissions_boundary" {
 variable "node_security_group_id" {
   description = "Security Group ID for EKS nodes"
   type        = string
+}
+
+variable "volume_size" {
+  description = "EBS volume size for Karpenter nodes in GiB"
+  type        = string
+  default     = "40Gi"
 }
