@@ -58,3 +58,9 @@ variable "volume_size" {
   type        = string
   default     = "40Gi"
 }
+
+variable "block_device_mappings" {
+  description = "Block device mappings for the EC2NodeClasses"
+  type        = any
+  default     = null
+}
