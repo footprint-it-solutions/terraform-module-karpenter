@@ -31,12 +31,6 @@ resource "helm_release" "this" {
   ]
 }
 
-locals {
-  processed_block_device_mappings = (
-    var.block_device_mappings == "" ? {} : var.block_device_mappings
-  )
-}
-
 resource "helm_release" "extras" {
   provider = helm
 
