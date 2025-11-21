@@ -12,13 +12,19 @@ upcoming relases.
 
 At release time, move the entries from here to a new release section.
 
-### Additions
+## [1.2.0] - 2025-11-21
 
-### Fixes
+### Added
 
-### Changes
+- Add support for configuring block device mappings and volume size via `block_device_mappings` and `volume_size` variables
 
-### Removals
+### Changed
+
+- Refactored `blockDeviceMappings` in `values.yaml` to use a map (keyed by device name) instead of a list. This enables environment-specific overrides for individual volumes without redefining the entire list.
+
+### Fixed
+
+### Removed
 
 ## [1.1.1] - 2025-11-21
 
