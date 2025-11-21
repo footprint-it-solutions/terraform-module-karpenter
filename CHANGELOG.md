@@ -20,6 +20,12 @@ At release time, move the entries from here to a new release section.
 
 ### Removals
 
+## [1.1.0] - 2025-11-21
+
+### Added
+
+- Add mitigations for disk pressure
+
 ## [1.0.0] - 2025-11-20
 
 ### Added
