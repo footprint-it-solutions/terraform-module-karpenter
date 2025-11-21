@@ -61,6 +61,6 @@ variable "volume_size" {
 
 variable "block_device_mappings" {
   description = "Block device mappings for the EC2NodeClasses"
-  type        = any
-  default     = null
+  type        = string
+  default     = ""
 }
