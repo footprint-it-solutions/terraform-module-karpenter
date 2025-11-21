@@ -13,6 +13,7 @@ resource "helm_release" "this" {
   name             = "karpenter"
   namespace        = "kube-system"
   repository       = "oci://public.ecr.aws/karpenter"
+  take_ownership   = true
   version          = "1.7.1"
 
   set = [
@@ -43,7 +44,7 @@ resource "helm_release" "extras" {
   name             = "karpenter-extras"
   namespace        = "kube-system"
   # Take over any resources created by alternative installation methods
-
+  take_ownership   = true
 
   set = [
     {
