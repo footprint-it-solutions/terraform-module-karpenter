@@ -32,6 +32,12 @@ resource "helm_release" "this" {
   ]
 }
 
+locals {
+  processed_block_device_mappings = (
+    var.block_device_mappings == "" ? {} : var.block_device_mappings
+  )
+}
+
 resource "helm_release" "extras" {
   provider = helm
 
@@ -74,7 +80,7 @@ resource "helm_release" "extras" {
         imageGCLowThresholdPercent   = var.image_gc_low_threshold_percent
         volumeSize                   = var.volume_size
       },
-      var.block_device_mappings != null ? { blockDeviceMappings = var.block_device_mappings } : {}
+      locals.processed_block_device_mappings != {} ? { blockDeviceMappings = locals.processed_block_device_mappings } : {}
     ))
   ]
 }
