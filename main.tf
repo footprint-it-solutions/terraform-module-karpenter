@@ -13,7 +13,6 @@ resource "helm_release" "this" {
   name             = "karpenter"
   namespace        = "kube-system"
   repository       = "oci://public.ecr.aws/karpenter"
-  take_ownership   = true
   version          = "1.7.1"
 
   set = [
@@ -50,7 +49,7 @@ resource "helm_release" "extras" {
   name             = "karpenter-extras"
   namespace        = "kube-system"
   # Take over any resources created by alternative installation methods
-  take_ownership   = true
+
 
   set = [
     {
@@ -73,14 +72,15 @@ resource "helm_release" "extras" {
 
   values = [
     file("${path.module}/helm/values.yaml"),
-    yamlencode(merge(
-      {
-        expireAfter                  = var.expire_after
-        imageGCHighThresholdPercent  = var.image_gc_high_threshold_percent
-        imageGCLowThresholdPercent   = var.image_gc_low_threshold_percent
-        volumeSize                   = var.volume_size
-      },
-      locals.processed_block_device_mappings != {} ? { blockDeviceMappings = locals.processed_block_device_mappings } : {}
-    ))
+    <<-EOT
+---
+expireAfter: ${var.expire_after}
+imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
+imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
+volumeSize: ${var.volume_size}
+%{ if var.block_device_mappings != "" ~}
+${var.block_device_mappings}
+%{ endif ~}
+    EOT
   ]
 }
