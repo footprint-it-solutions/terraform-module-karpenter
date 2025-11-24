@@ -12,6 +12,20 @@ upcoming relases.
 
 At release time, move the entries from here to a new release section.
 
+## [1.3.0] - 2025-11-24
+
+### Added
+
+- Add node pool weights, favour Bottlerocket
+
+### Changed
+
+- Always use the volume size from the block device mappings
+
+### Removed
+
+- Removed `volume_size` variable
+
 ## [1.2.0] - 2025-11-21
 
 ### Added

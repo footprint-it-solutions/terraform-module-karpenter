@@ -53,12 +53,6 @@ variable "node_security_group_id" {
   type        = string
 }
 
-variable "volume_size" {
-  description = "EBS volume size for Karpenter nodes in GiB"
-  type        = string
-  default     = "40Gi"
-}
-
 variable "block_device_mappings" {
   description = "Block device mappings for the EC2NodeClasses"
   type        = string

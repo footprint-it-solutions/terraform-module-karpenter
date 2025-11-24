@@ -2,6 +2,7 @@
 blockDeviceMappings:
   al2023:
     /dev/xvda:
+      volumeSize: 40Gi
       volumeType: gp3
   bottlerocket:
     /dev/xvda:
@@ -10,3 +11,14 @@ blockDeviceMappings:
     /dev/xvdb:
       volumeSize: 40Gi
       volumeType: gp3
+
+excludedInstanceSizes:
+  - nano
+  - micro
+  - small
+  - medium
+
+# Prefer Bottlerocket over AL2023 by assigning a higher weight
+nodePoolWeight:
+  al2023: 10
+  bottlerocket: 20
