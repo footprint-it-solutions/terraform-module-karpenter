@@ -44,7 +44,7 @@ resource "helm_release" "extras" {
   name             = "karpenter-extras"
   namespace        = "kube-system"
   # Take over any resources created by alternative installation methods
-  take_ownership   = true
+  take_ownership = true
 
   set = [
     {
@@ -72,9 +72,9 @@ resource "helm_release" "extras" {
 expireAfter: ${var.expire_after}
 imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
 imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
-%{ if var.block_device_mappings != "" ~}
+%{if var.block_device_mappings != ""~}
 ${var.block_device_mappings}
-%{ endif ~}
+%{endif~}
     EOT
   ]
 }
