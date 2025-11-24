@@ -1,6 +1,6 @@
 ---
-kind: EC2NodeClass
 apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
 metadata:
   name: al2023
 spec:
