@@ -2,6 +2,7 @@
 blockDeviceMappings:
   al2023:
     /dev/xvda:
+      volumeSize: 40Gi
       volumeType: gp3
   bottlerocket:
     /dev/xvda:
