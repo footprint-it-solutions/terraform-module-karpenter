@@ -68,5 +68,5 @@ variable "block_device_mappings" {
 variable "node_min_memory" {
   description = "Minimum memory for Karpenter nodes in MiB"
   type        = number
-  default     = null
+  default     = 1024
 }
