@@ -25,6 +25,11 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
+        {{- if .Values.nodeMinMemory }}
+        - key: karpenter.k8s.aws/instance-memory
+          operator: Gt
+          values: ["{{ .Values.nodeMinMemory }}"]
+        {{- end }}
       expireAfter: {{ .Values.expireAfter }}
       nodeClassRef:
         group: karpenter.k8s.aws
@@ -68,6 +73,11 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
+        {{- if .Values.nodeMinMemory }}
+        - key: karpenter.k8s.aws/instance-memory
+          operator: Gt
+          values: ["{{ .Values.nodeMinMemory }}"]
+        {{- end }}
       expireAfter: {{ .Values.expireAfter }}
       nodeClassRef:
         group: karpenter.k8s.aws

@@ -76,6 +76,9 @@ volumeSize: ${var.volume_size}
 %{ if var.block_device_mappings != "" ~}
 ${var.block_device_mappings}
 %{ endif ~}
+%{ if var.node_min_memory != null ~}
+nodeMinMemory: ${var.node_min_memory}
+%{ endif ~}
     EOT
   ]
 }

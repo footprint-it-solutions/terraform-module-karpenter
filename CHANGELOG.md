@@ -12,6 +12,12 @@ upcoming relases.
 
 At release time, move the entries from here to a new release section.
 
+## [1.2.1] - 2025-11-24
+
+### Added
+
+- Add support for configuring minimum node memory via `node_min_memory` variable
+
 ## [1.2.0] - 2025-11-21
 
 ### Added
