@@ -58,3 +58,9 @@ variable "block_device_mappings" {
   type        = string
   default     = ""
 }
+
+variable "node_iam_role" {
+  description = "Node IAM Role"
+  type        = string
+  default     = "eks-node"
+}

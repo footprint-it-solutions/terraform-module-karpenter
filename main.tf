@@ -75,6 +75,7 @@ imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
 %{if var.block_device_mappings != ""~}
 ${var.block_device_mappings}
 %{endif~}
+nodeIamRole: ${var.node_iam_role}
     EOT
   ]
 }

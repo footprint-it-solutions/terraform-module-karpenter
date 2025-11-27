@@ -18,6 +18,8 @@ excludedInstanceSizes:
   - small
   - medium
 
+nodeIamRole: eks-node
+
 # Prefer Bottlerocket over AL2023 by assigning a higher weight
 nodePoolWeight:
   al2023: 10

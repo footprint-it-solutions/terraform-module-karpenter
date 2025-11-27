@@ -17,7 +17,7 @@ spec:
     {{- end }}
   kubelet:
     maxPods: 110
-  role: eks-node
+  role: {{ .Values.nodeIamRole }}
   securityGroupSelectorTerms:
     - tags:
         karpenter.sh/discovery: {{ .Values.clusterName }}
@@ -44,7 +44,7 @@ spec:
     {{- end }}
   kubelet:
     maxPods: 110
-  role: eks-node
+  role: {{ .Values.nodeIamRole }}
   securityGroupSelectorTerms:
     - tags:
         karpenter.sh/discovery: {{ .Values.clusterName }}
