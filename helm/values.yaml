@@ -1,4 +1,10 @@
 ---
+awsAccountId: ""
+awsRegion: ""
+clusterName: ""
+oidcProvider: ""
+
+# Block device mappings for different AMI families
 blockDeviceMappings:
   al2023:
     /dev/xvda:
@@ -12,13 +18,15 @@ blockDeviceMappings:
       volumeSize: 40Gi
       volumeType: gp3
 
-excludedInstanceSizes:
-  - nano
-  - micro
-  - small
-  - medium
+# Kubelet image garbage collection settings
+imageGCHighThresholdPercent: 85
+imageGCLowThresholdPercent: 80
 
-# Prefer Bottlerocket over AL2023 by assigning a higher weight
-nodePoolWeight:
-  al2023: 10
-  bottlerocket: 20
+# Excluded instance sizes (optional)
+excludedInstanceSizes: []
+
+# Static mode configuration - Set to 1 to enable static mode with a fixed number of nodes
+replicas: 1
+
+# Maximum nodes during scaling/drift for static NodePools
+limitsNodes: 2

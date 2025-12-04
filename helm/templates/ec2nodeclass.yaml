@@ -17,6 +17,9 @@ spec:
     {{- end }}
   kubelet:
     maxPods: 110
+    registerWithTaints:
+      - key: node-role.kubernetes.io/hlb
+        effect: NoSchedule
   role: eks-node
   securityGroupSelectorTerms:
     - tags:
@@ -44,6 +47,9 @@ spec:
     {{- end }}
   kubelet:
     maxPods: 110
+    registerWithTaints:
+      - key: node-role.kubernetes.io/hlb
+        effect: NoSchedule
   role: eks-node
   securityGroupSelectorTerms:
     - tags:
