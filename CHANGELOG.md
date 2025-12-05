@@ -12,6 +12,16 @@ upcoming relases.
 
 At release time, move the entries from here to a new release section.
 
+## [2.0.0] - 2025-12-05
+
+### Added
+
+- Add `startupTaints` and static mode node count
+
+### Changed
+
+- Bump Karpenter version to `1.8.2` to set `spec.replicas: 1` because replicas is not a valid field in `1.7.1`.
+
 ## [1.4.0] - 2025-12-05
 
 ### Added
