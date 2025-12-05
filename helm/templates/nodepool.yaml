@@ -4,6 +4,7 @@ kind: NodePool
 metadata:
   name: al2023
 spec:
+  replicas: {{ .Values.replicas }}
   disruption:
     consolidateAfter: 30s
     consolidationPolicy: WhenEmptyOrUnderutilized
@@ -51,6 +52,7 @@ kind: NodePool
 metadata:
   name: bottlerocket
 spec:
+  replicas: {{ .Values.replicas }}
   disruption:
     consolidateAfter: 30s
     consolidationPolicy: WhenEmptyOrUnderutilized
