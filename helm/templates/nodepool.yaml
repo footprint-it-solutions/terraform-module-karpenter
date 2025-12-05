@@ -22,6 +22,9 @@ spec:
         imageGCHighThresholdPercent: {{ .Values.imageGCHighThresholdPercent }}
         # Low threshold for GC to ensure ample space for new images
         imageGCLowThresholdPercent: {{ .Values.imageGCLowThresholdPercent }}
+        registerWithTaints:
+          - key: node-role.kubernetes.io/hlb
+            effect: NoSchedule
       requirements:
         - key: "karpenter.k8s.aws/instance-hypervisor"
           operator: In
@@ -41,17 +44,9 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
-        - key: karpenter.k8s.aws/instance-size
-          operator: NotIn
-          values: ["nano", "micro", "small", "medium"]
-        {{ if .Values.excludedInstanceSizes }}
-        - key: karpenter.k8s.aws/instance-size
-          operator: NotIn
-          values:
-          {{- range .Values.excludedInstanceSizes }}
-            - "{{ . }}"
-          {{- end }}
-        {{ end }}
+      startupTaints:
+        - key: node-role.kubernetes.io/hlb
+          effect: NoSchedule
   weight: {{ .Values.nodePoolWeight.al2023 }}
 ---
 apiVersion: karpenter.sh/v1
@@ -73,6 +68,9 @@ spec:
         imageGCHighThresholdPercent: {{ .Values.imageGCHighThresholdPercent }}
         # Low threshold for GC to ensure ample space for new images
         imageGCLowThresholdPercent: {{ .Values.imageGCLowThresholdPercent }}
+        registerWithTaints:
+          - key: node-role.kubernetes.io/hlb
+            effect: NoSchedule
       nodeClassRef:
         group: karpenter.k8s.aws
         kind: EC2NodeClass
@@ -96,12 +94,7 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
-        {{ if .Values.excludedInstanceSizes }}
-        - key: karpenter.k8s.aws/instance-size
-          operator: NotIn
-          values:
-          {{- range .Values.excludedInstanceSizes }}
-            - "{{ . }}"
-          {{- end }}
-        {{ end }}
+      startupTaints:
+        - key: node-role.kubernetes.io/hlb
+          effect: NoSchedule
   weight: {{ .Values.nodePoolWeight.bottlerocket }}
