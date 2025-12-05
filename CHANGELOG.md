@@ -12,6 +12,12 @@ upcoming relases.
 
 At release time, move the entries from here to a new release section.
 
+## [1.4.0] - 2025-12-05
+
+### Added
+
+- Add g EC2 instances for GPU support with Bottlerocket
+
 ## [1.3.0] - 2025-11-24
 
 ### Added
