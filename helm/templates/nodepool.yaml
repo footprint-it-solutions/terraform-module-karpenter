@@ -22,9 +22,6 @@ spec:
         imageGCHighThresholdPercent: {{ .Values.imageGCHighThresholdPercent }}
         # Low threshold for GC to ensure ample space for new images
         imageGCLowThresholdPercent: {{ .Values.imageGCLowThresholdPercent }}
-        registerWithTaints:
-          - key: node-role.kubernetes.io/hlb
-            effect: NoSchedule
       requirements:
         - key: "karpenter.k8s.aws/instance-hypervisor"
           operator: In
@@ -68,9 +65,6 @@ spec:
         imageGCHighThresholdPercent: {{ .Values.imageGCHighThresholdPercent }}
         # Low threshold for GC to ensure ample space for new images
         imageGCLowThresholdPercent: {{ .Values.imageGCLowThresholdPercent }}
-        registerWithTaints:
-          - key: node-role.kubernetes.io/hlb
-            effect: NoSchedule
       nodeClassRef:
         group: karpenter.k8s.aws
         kind: EC2NodeClass
