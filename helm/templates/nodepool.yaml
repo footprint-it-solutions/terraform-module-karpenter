@@ -2,7 +2,7 @@
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
-  name: al2023
+  name: al2023-hlb
 spec:
   replicas: {{ .Values.replicas }}
   disruption:
@@ -50,7 +50,7 @@ spec:
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
-  name: bottlerocket
+  name: bottlerocket-hlb
 spec:
   replicas: {{ .Values.replicas }}
   disruption:
