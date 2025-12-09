@@ -53,9 +53,6 @@ spec:
   disruption:
     consolidateAfter: 30s
     consolidationPolicy: WhenEmptyOrUnderutilized
-  limits:
-    cpu: 100
-    memory: 256Gi
   template:
     spec:
       expireAfter: {{ .Values.expireAfter }}
@@ -90,7 +87,6 @@ spec:
       startupTaints:
         - key: node-role.kubernetes.io/hlb
           effect: NoSchedule
-  weight: {{ .Values.nodePoolWeight.al2023 }}
 
 ---
 apiVersion: karpenter.sh/v1
@@ -147,9 +143,6 @@ spec:
   disruption:
     consolidateAfter: 30s
     consolidationPolicy: WhenEmptyOrUnderutilized
-  limits:
-    cpu: 100
-    memory: 256Gi
   template:
     spec:
       expireAfter: {{ .Values.expireAfter }}
@@ -184,4 +177,3 @@ spec:
       startupTaints:
         - key: node-role.kubernetes.io/hlb
           effect: NoSchedule
-  weight: {{ .Values.nodePoolWeight.bottlerocket }}
