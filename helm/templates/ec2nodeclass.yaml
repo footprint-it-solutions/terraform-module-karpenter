@@ -53,17 +53,17 @@ spec:
         karpenter.sh/discovery: {{ .Values.clusterName }}
 
 ---
-# HLB hlb-ami-x86_64 node class using HLB custom AMI
+# HLB hlb-ami-x86 node class using HLB custom AMI
 apiVersion: karpenter.k8s.aws/v1
 kind: EC2NodeClass
 metadata:
-  name: hlb-ami-x86_64
+  name: hlb-ami-x86
 spec:
-  amiFamily: hlb-ami-x86_64
+  amiFamily: ubuntu-hlb
   amiSelectorTerms:
-    - id: "ami-00c6e2a4aac5a85f6" # HLB custom hlb-ami-x86_64 AMI
+    - id: "ami-00c6e2a4aac5a85f6" # HLB custom hlb-ami-x86 AMI
   blockDeviceMappings:
-    {{- range $deviceName, $config := index .Values.blockDeviceMappings "hlb-ami-x86_64" }}
+    {{- range $deviceName, $config := index .Values.blockDeviceMappings "hlb-ami-x86" }}
     - deviceName: {{ $deviceName | quote }}
       ebs:
         deleteOnTermination: {{ default true $config.deleteOnTermination }}
