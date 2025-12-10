@@ -26,34 +26,6 @@ spec:
         karpenter.sh/discovery: {{ .Values.clusterName }}
 
 ---
-# HLB AL2023 node class using HLB custom AMI
-apiVersion: karpenter.k8s.aws/v1
-kind: EC2NodeClass
-metadata:
-  name: al2023-hlb
-spec:
-  amiFamily: AL2023
-  amiSelectorTerms:
-    - id: "ami-00c6e2a4aac5a85f6" # HLB custom AL2023 AMI
-  blockDeviceMappings:
-    {{- range $deviceName, $config := index .Values.blockDeviceMappings "al2023" }}
-    - deviceName: {{ $deviceName | quote }}
-      ebs:
-        deleteOnTermination: {{ default true $config.deleteOnTermination }}
-        volumeSize: {{ $config.volumeSize }}
-        volumeType: {{ default "gp3" $config.volumeType }}
-    {{- end }}
-  kubelet:
-    maxPods: 110
-  role: eks-node
-  securityGroupSelectorTerms:
-    - tags:
-        karpenter.sh/discovery: {{ .Values.clusterName }}
-  subnetSelectorTerms:
-    - tags:
-        karpenter.sh/discovery: {{ .Values.clusterName }}
-
----
 apiVersion: karpenter.k8s.aws/v1
 kind: EC2NodeClass
 metadata:
@@ -81,17 +53,17 @@ spec:
         karpenter.sh/discovery: {{ .Values.clusterName }}
 
 ---
-# HLB Bottlerocket node class using HLB custom AMI
+# HLB hlb-ami-x86_64 node class using HLB custom AMI
 apiVersion: karpenter.k8s.aws/v1
 kind: EC2NodeClass
 metadata:
-  name: bottlerocket-hlb
+  name: hlb-ami-x86_64
 spec:
-  amiFamily: Bottlerocket
+  amiFamily: hlb-ami-x86_64
   amiSelectorTerms:
-    - id: "ami-00c6e2a4aac5a85f6"
+    - id: "ami-00c6e2a4aac5a85f6" # HLB custom hlb-ami-x86_64 AMI
   blockDeviceMappings:
-    {{- range $deviceName, $config := index .Values.blockDeviceMappings "bottlerocket" }}
+    {{- range $deviceName, $config := index .Values.blockDeviceMappings "hlb-ami-x86_64" }}
     - deviceName: {{ $deviceName | quote }}
       ebs:
         deleteOnTermination: {{ default true $config.deleteOnTermination }}
