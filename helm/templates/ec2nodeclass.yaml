@@ -59,7 +59,7 @@ kind: EC2NodeClass
 metadata:
   name: hlb-ami-x86
 spec:
-  amiFamily: ubuntu-hlb
+  amiFamily: AL2
   amiSelectorTerms:
     - id: "ami-00c6e2a4aac5a85f6" # HLB custom hlb-ami-x86 AMI
   blockDeviceMappings:
