@@ -19,6 +19,21 @@ variable "expire_after" {
   default     = "168h" # 7 days
 }
 
+variable "hlb_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "hlb_ami_id" {
+  type    = string
+  default = ""
+}
+
+variable "hlb_replicas" {
+  type    = number
+  default = 1
+}
+
 variable "image_gc_high_threshold_percent" {
   description = "Garbage collection starts at 70% to prevent disk pressure (eviction usually starts at 85%)"
   type        = number

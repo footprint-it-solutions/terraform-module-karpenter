@@ -72,6 +72,12 @@ resource "helm_release" "extras" {
 expireAfter: ${var.expire_after}
 imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
 imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
+
+hlb:
+  enabled: ${var.hlb_enabled}
+  amiId: "${var.hlb_ami_id}"
+  replicas: ${var.hlb_replicas}
+
 %{if var.block_device_mappings != ""~}
 ${var.block_device_mappings}
 %{endif~}

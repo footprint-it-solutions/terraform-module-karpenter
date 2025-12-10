@@ -18,6 +18,11 @@ excludedInstanceSizes:
   - small
   - medium
 
+hlb:
+  enabled: false        # other clusters will keep this default
+  amiId: ""             # set from Terraform in the dev cluster
+  replicas: 1           # set static replica count for HLB node pool
+
 # Prefer Bottlerocket over AL2023 by assigning a higher weight
 nodePoolWeight:
   al2023: 10
