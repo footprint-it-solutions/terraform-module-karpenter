@@ -29,11 +29,6 @@ variable "hlb_ami_id" {
   default = ""
 }
 
-variable "hlb_replicas" {
-  type    = number
-  default = 1
-}
-
 variable "image_gc_high_threshold_percent" {
   description = "Garbage collection starts at 70% to prevent disk pressure (eviction usually starts at 85%)"
   type        = number

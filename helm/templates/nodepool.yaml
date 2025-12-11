@@ -93,9 +93,9 @@ metadata:
   name: hlb-ami-x86
 spec:
   replicas: {{ .Values.replicas }}
-    disruption:
-      consolidateAfter: 30s
-      consolidationPolicy: WhenEmptyOrUnderutilized
+  disruption:
+    consolidateAfter: 30s
+    consolidationPolicy: WhenEmptyOrUnderutilized
   template:
     spec:
       expireAfter: {{ .Values.expireAfter }}
