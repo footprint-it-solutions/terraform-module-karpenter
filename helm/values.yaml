@@ -11,7 +11,7 @@ blockDeviceMappings:
     /dev/xvdb:
       volumeSize: 40Gi
       volumeType: gp3
-  hlb-ami:
+  hlb-ami-x86:
     /dev/xvda:
       volumeSize: 40Gi
       volumeType: gp3
