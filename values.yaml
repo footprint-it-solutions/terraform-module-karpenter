@@ -14,6 +14,3 @@ settings:
   featureGates:
     # Enable static capacity provisioning
     StaticCapacity: true
-
-hlb:
-  enabled: true
