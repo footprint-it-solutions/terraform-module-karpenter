@@ -92,6 +92,7 @@ kind: NodePool
 metadata:
   name: hlb-ami
 spec:
+  replicas: {{ .Values.replicas }}
   disruption:
     consolidateAfter: 30s
     consolidationPolicy: WhenEmptyOrUnderutilized
