@@ -90,7 +90,7 @@ spec:
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
-  name: hlb-ami-x86
+  name: hlb-ami
 spec:
   replicas: {{ .Values.replicas }}
   disruption:
@@ -102,7 +102,7 @@ spec:
       nodeClassRef:
         group: karpenter.k8s.aws
         kind: EC2NodeClass
-        name: hlb-ami-x86
+        name: hlb-ami
       kubelet:
         # High threshold for Garbage Collection (GC) to prevent disk pressure (eviction usually starts at 85%)
         imageGCHighThresholdPercent: {{ .Values.imageGCHighThresholdPercent }}

@@ -53,19 +53,19 @@ spec:
         karpenter.sh/discovery: {{ .Values.clusterName }}
 
 ---
-# HLB hlb-ami-x86 node class using HLB custom AMI
+# HLB hlb-ami node class using HLB custom AMI
 {{- if .Values.hlb.enabled }}
 apiVersion: karpenter.k8s.aws/v1
 kind: EC2NodeClass
 metadata:
-  name: hlb-ami-x86
+  name: hlb-ami
 spec:
   # We use AL2 amiFamily so Karpenter generates EKS bootstrap userdata
   amiFamily: AL2
   amiSelectorTerms:
     - id: "{{ .Values.hlb.amiId }}"  # passed from Terraform
   blockDeviceMappings:
-    {{- range $deviceName, $config := index .Values.blockDeviceMappings "hlb-ami-x86" }}
+    {{- range $deviceName, $config := index .Values.blockDeviceMappings "hlb-ami" }}
     - deviceName: {{ $deviceName | quote }}
       ebs:
         deleteOnTermination: {{ default true $config.deleteOnTermination }}
