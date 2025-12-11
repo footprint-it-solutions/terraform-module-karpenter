@@ -139,7 +139,7 @@ kind: NodePool
 metadata:
   name: hlb-ami-x86
 spec:
-  replicas: {{ .Values.hlb.replicas }}
+  replicas: {{ .Values.replicas }}
     disruption:
       consolidateAfter: 30s
       consolidationPolicy: WhenEmptyOrUnderutilized
