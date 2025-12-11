@@ -16,7 +16,7 @@ resource "helm_release" "this" {
   take_ownership   = true
   version          = "1.8.2"
 
-  set = [
+  set = concat([
     {
       name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
       value = aws_iam_role.this.arn
@@ -25,7 +25,12 @@ resource "helm_release" "this" {
       name  = "settings.clusterName"
       value = var.cluster_name
     }
-  ]
+  ], [
+    for gate, enabled in var.feature_gates : {
+      name  = "settings.featureGates.${gate}"
+      value = tostring(enabled)
+    }
+  ])
 
   values = [
     file("${path.module}/values.yaml")

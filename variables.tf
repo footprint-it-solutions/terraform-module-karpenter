@@ -68,3 +68,9 @@ variable "block_device_mappings" {
   type        = string
   default     = ""
 }
+
+variable "feature_gates" {
+  description = "Feature gates to enable or disable in the Karpenter controller"
+  type        = map(bool)
+  default     = {}
+}

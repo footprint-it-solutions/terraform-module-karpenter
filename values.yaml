@@ -9,8 +9,3 @@ controller:
 # We need to use the VPC DNS resolver as CoreDNS will not be available in
 # a brand new cluster without any nodes.
 dnsPolicy: Default
-
-settings:
-  featureGates:
-    # Enable static capacity provisioning
-    StaticCapacity: true
