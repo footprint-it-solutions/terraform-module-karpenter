@@ -7,9 +7,9 @@ spec:
   disruption:
     consolidateAfter: 30s
     consolidationPolicy: WhenEmptyOrUnderutilized
-  limits:
-    cpu: 100
-    memory: 256Gi
+  # limits:
+  #   cpu: 100
+  #   memory: 256Gi
   template:
     spec:
       expireAfter: {{ .Values.expireAfter }}
@@ -41,7 +41,7 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
-  weight: {{ .Values.nodePoolWeight.al2023 }}
+  # weight: {{ .Values.nodePoolWeight.al2023 }}
 
 ---
 apiVersion: karpenter.sh/v1
@@ -83,7 +83,7 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
-  weight: {{ .Values.nodePoolWeight.bottlerocket }}
+  # weight: {{ .Values.nodePoolWeight.bottlerocket }}
 
 ---
 {{- if .Values.hlb.enabled }}
