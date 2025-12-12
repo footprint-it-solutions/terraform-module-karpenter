@@ -29,13 +29,13 @@ spec:
 apiVersion: karpenter.k8s.aws/v1
 kind: EC2NodeClass
 metadata:
-  name: bottlerocket
+  name: bottlerocket-foo
 spec:
   amiFamily: Bottlerocket
   amiSelectorTerms:
     - alias: bottlerocket@1.50.0
   blockDeviceMappings:
-    {{- range $deviceName, $config := index .Values.blockDeviceMappings "bottlerocket" }}
+    {{- range $deviceName, $config := index .Values.blockDeviceMappings "bottlerocket-foo" }}
     - deviceName: {{ $deviceName | quote }}
       ebs:
         deleteOnTermination: {{ default true $config.deleteOnTermination }}

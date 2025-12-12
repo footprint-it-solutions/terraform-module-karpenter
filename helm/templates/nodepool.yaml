@@ -47,7 +47,7 @@ spec:
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
-  name: bottlerocket
+  name: bottlerocket-foo
 spec:
   disruption:
     consolidateAfter: 30s
@@ -63,7 +63,7 @@ spec:
       nodeClassRef:
         group: karpenter.k8s.aws
         kind: EC2NodeClass
-        name: bottlerocket
+        name: bottlerocket-foo
       requirements:
         - key: "karpenter.k8s.aws/instance-hypervisor"
           operator: In
