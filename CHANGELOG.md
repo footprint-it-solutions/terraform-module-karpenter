@@ -17,6 +17,7 @@ At release time, move the entries from here to a new release section.
 ### Added
 
 - Added node pool labels, for use with `nodeSelector`
+- Added "g" instances to AL2023 node pool
 
 ## [1.4.0] - 2025-12-05
 
