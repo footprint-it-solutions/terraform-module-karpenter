@@ -12,6 +12,12 @@ upcoming relases.
 
 At release time, move the entries from here to a new release section.
 
+## [1.5.0] - 2025-12-13
+
+### Added
+
+- Added node pool labels, for use with `nodeSelector`
+
 ## [1.4.0] - 2025-12-05
 
 ### Added
