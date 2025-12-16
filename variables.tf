@@ -19,14 +19,12 @@ variable "expire_after" {
   default     = "168h" # 7 days
 }
 
-variable "hlb_enabled" {
-  type    = bool
-  default = false
-}
-
-variable "hlb_ami_id" {
-  type    = string
-  default = ""
+variable "hlb" {
+  description = "Configuration for HLB. If provided, HLB is enabled."
+  type = object({
+    ami_id = string
+  })
+  default = null
 }
 
 variable "image_gc_high_threshold_percent" {
