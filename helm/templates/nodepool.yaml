@@ -2,6 +2,8 @@
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
+  labels:
+    karpenter.sh/nodepool: al2023
   name: al2023
 spec:
   disruption:
@@ -37,7 +39,7 @@ spec:
           values: ["on-demand", "spot"]
         - key: karpenter.k8s.aws/instance-category
           operator: In
-          values: ["c", "m", "r"]
+          values: ["c", "g", "m", "r"]
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
@@ -47,6 +49,8 @@ spec:
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
+  labels:
+    karpenter.sh/nodepool: bottlerocket
   name: bottlerocket
 spec:
   disruption:
