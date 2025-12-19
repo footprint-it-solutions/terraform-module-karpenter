@@ -14,9 +14,9 @@ resource "helm_release" "this" {
   namespace        = "kube-system"
   repository       = "oci://public.ecr.aws/karpenter"
   take_ownership   = true
-  version          = "1.7.1"
+  version          = "1.8.2"
 
-  set = [
+  set = concat([
     {
       name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
       value = aws_iam_role.this.arn
@@ -25,7 +25,12 @@ resource "helm_release" "this" {
       name  = "settings.clusterName"
       value = var.cluster_name
     }
-  ]
+  ], [
+    for gate, enabled in var.feature_gates : {
+      name  = "settings.featureGates.${gate}"
+      value = tostring(enabled)
+    }
+  ])
 
   values = [
     file("${path.module}/values.yaml")
@@ -72,6 +77,11 @@ resource "helm_release" "extras" {
 expireAfter: ${var.expire_after}
 imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
 imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
+
+hlb:
+  enabled: ${var.hlb != null}
+  amiId: "${var.hlb != null ? var.hlb.ami_id : ""}"
+
 %{if var.block_device_mappings != ""~}
 ${var.block_device_mappings}
 %{endif~}
