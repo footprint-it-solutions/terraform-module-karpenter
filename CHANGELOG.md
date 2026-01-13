@@ -12,6 +12,11 @@ upcoming relases.
 
 At release time, move the entries from here to a new release section.
 
+## [2.1.0] - 2026-01-13
+
+### Added
+
+- Add code that provisions the `m8g.xlarge` node pool. The provisioning can be triggered by setting the `graviton_m8g_enabled` variable to `true` (default value is `false`).
 
 ## [2.0.0] - 2025-12-05
 

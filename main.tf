@@ -82,6 +82,12 @@ hlb:
   enabled: ${var.hlb != null}
   amiId: "${var.hlb != null ? var.hlb.ami_id : ""}"
 
+gravitonM8G:
+  enabled: ${var.graviton_m8g_enabled}
+  nodepool_template_name: m8g-nodepool
+  node_taintKey: "workload/m8g-compatible"
+  instanceType: "m8g.xlarge"
+
 %{if var.block_device_mappings != ""~}
 ${var.block_device_mappings}
 %{endif~}
