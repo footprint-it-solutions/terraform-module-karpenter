@@ -32,6 +32,13 @@ resource "helm_release" "this" {
     }
   ])
 
+  set_list = [
+    {
+      name  = "allowedArch"
+      value = var.allowed_arch
+    }
+  ]
+
   values = [
     file("${path.module}/values.yaml")
   ]
