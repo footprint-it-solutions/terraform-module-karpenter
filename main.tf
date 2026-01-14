@@ -32,13 +32,6 @@ resource "helm_release" "this" {
     }
   ])
 
-  set_list = [
-    {
-      name  = "allowedArch"
-      value = var.allowed_arch
-    }
-  ]
-
   values = [
     file("${path.module}/values.yaml")
   ]
@@ -74,6 +67,13 @@ resource "helm_release" "extras" {
     {
       name  = "nodeSecurityGroupId"
       value = var.node_security_group_id
+    }
+  ]
+
+  set_list = [
+    {
+      name  = "allowedArch"
+      value = var.allowed_arch
     }
   ]
 
