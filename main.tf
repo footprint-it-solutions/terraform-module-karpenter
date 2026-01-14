@@ -70,6 +70,13 @@ resource "helm_release" "extras" {
     }
   ]
 
+  set_list = [
+    {
+      name  = "allowedArch"
+      value = var.allowed_arch
+    }
+  ]
+
   values = [
     file("${path.module}/helm/values.yaml"),
     <<-EOT
@@ -81,12 +88,6 @@ imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
 hlb:
   enabled: ${var.hlb != null}
   amiId: "${var.hlb != null ? var.hlb.ami_id : ""}"
-
-gravitonM8G:
-  enabled: ${var.graviton_m8g_enabled}
-  nodepool_template_name: m8g-nodepool
-  node_taintKey: "workload/m8g-compatible"
-  instanceType: "m8g.xlarge"
 
 %{if var.block_device_mappings != ""~}
 ${var.block_device_mappings}

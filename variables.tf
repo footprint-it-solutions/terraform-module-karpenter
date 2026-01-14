@@ -3,6 +3,14 @@ variable "cluster_name" {
   type        = string
 }
 
+variable "allowed_arch" {
+  description = "Architectures to allow"
+  type        = set(string)
+  default     = [
+    "amd64"
+  ]
+}
+
 variable "aws_account_id" {
   description = "AWS account ID"
   type        = string
@@ -71,11 +79,4 @@ variable "feature_gates" {
   description = "Feature gates to enable or disable in the Karpenter controller"
   type        = map(bool)
   default     = {}
-}
-
-# Added in v2.1.0
-variable "graviton_m8g_enabled" {
-  description = "If true, a NodePool for Graviton m8g instances will be created."
-  type        = bool
-  default     = false
 }
