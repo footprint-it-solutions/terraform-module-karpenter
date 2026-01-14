@@ -3,6 +3,11 @@ variable "cluster_name" {
   type        = string
 }
 
+variables "allowed_arch" {
+  description = "Architectures to allow"
+  type        = set(string)
+}
+
 variable "aws_account_id" {
   description = "AWS account ID"
   type        = string
