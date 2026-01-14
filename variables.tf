@@ -72,10 +72,3 @@ variable "feature_gates" {
   type        = map(bool)
   default     = {}
 }
-
-# Added in v2.1.0
-variable "graviton_m8g_enabled" {
-  description = "If true, a NodePool for Graviton m8g instances will be created."
-  type        = bool
-  default     = false
-}
