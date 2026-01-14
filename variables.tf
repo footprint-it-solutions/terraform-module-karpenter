@@ -3,7 +3,7 @@ variable "cluster_name" {
   type        = string
 }
 
-variables "allowed_arch" {
+variable "allowed_arch" {
   description = "Architectures to allow"
   type        = set(string)
   default     = [
