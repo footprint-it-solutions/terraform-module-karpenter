@@ -1,4 +1,6 @@
 ---
+allowedArch:
+  - amd64
 blockDeviceMappings:
   al2023:
     /dev/xvda:
