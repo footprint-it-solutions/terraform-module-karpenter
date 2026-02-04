@@ -17,6 +17,11 @@ spec:
     {{- end }}
   kubelet:
     maxPods: 110
+  metadataOptions:
+    httpEndpoint: enabled
+    httpProtocolIPv6: disabled
+    httpPutResponseHopLimit: 2 # This is changed to enable IMDS access from containers not on the host network
+    httpTokens: required
   role: eks-node
   securityGroupSelectorTerms:
     - tags:
@@ -44,6 +49,11 @@ spec:
     {{- end }}
   kubelet:
     maxPods: 110
+  metadataOptions:
+    httpEndpoint: enabled
+    httpProtocolIPv6: disabled
+    httpPutResponseHopLimit: 2 # This is changed to enable IMDS access from containers not on the host network
+    httpTokens: required
   role: eks-node
   securityGroupSelectorTerms:
     - tags:
