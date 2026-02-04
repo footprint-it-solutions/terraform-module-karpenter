@@ -12,6 +12,17 @@ upcoming relases.
 
 At release time, move the entries from here to a new release section.
 
+## [2.2.0] - 2025-02-04
+
+### Added
+
+- Add metadata options for ec2nodeclass with override for httpPutResponseHopLimit to allow access to Instance Metadata Service (IMDS) from EKS pods. 
+
+## [2.1.1] - 2026-01-14
+
+### Added
+
+- Add support for multi-architecture instances
 
 ## [2.0.0] - 2025-12-05
 
