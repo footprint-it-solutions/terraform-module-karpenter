@@ -1,141 +1,51 @@
+{{- range .Values.nodePools }}
 ---
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
+  name: {{ .name }}
   labels:
-    karpenter.sh/nodepool: al2023
-  name: al2023
+    karpenter.sh/nodepool: {{ .name }}
 spec:
-  disruption:
-    consolidateAfter: 30s
-    consolidationPolicy: WhenEmptyOrUnderutilized
   template:
     spec:
-      expireAfter: {{ .Values.expireAfter }}
       nodeClassRef:
         group: karpenter.k8s.aws
         kind: EC2NodeClass
-        name: al2023
-      kubelet:
-        # High threshold for Garbage Collection (GC) to prevent disk pressure (eviction usually starts at 85%)
-        imageGCHighThresholdPercent: {{ .Values.imageGCHighThresholdPercent }}
-        # Low threshold for GC to ensure ample space for new images
-        imageGCLowThresholdPercent: {{ .Values.imageGCLowThresholdPercent }}
+        name: {{ .node_class_ref }}
       requirements:
-        - key: "karpenter.k8s.aws/instance-hypervisor"
-          operator: In
-          values: ["nitro"]
-        - key: kubernetes.io/arch
-          operator: In
+        {{- range .requirements }}
+        - key: {{ .key | quote }}
+          operator: {{ .operator }}
           values:
-          {{- range .Values.allowedArch }}
-            - {{ . }}
+          {{- range .values }}
+            - {{ . | quote }}
           {{- end }}
-        - key: kubernetes.io/os
-          operator: In
-          values: ["linux"]
-        - key: karpenter.sh/capacity-type
-          operator: In
-          values: ["on-demand", "spot"]
-        - key: karpenter.k8s.aws/instance-category
-          operator: In
-          values: ["c", "g", "m", "r"]
-        - key: karpenter.k8s.aws/instance-generation
-          operator: Gt
-          values: ["2"]
-
----
-apiVersion: karpenter.sh/v1
-kind: NodePool
-metadata:
-  labels:
-    karpenter.sh/nodepool: bottlerocket
-  name: bottlerocket
-spec:
-  disruption:
-    consolidateAfter: 30s
-    consolidationPolicy: WhenEmptyOrUnderutilized
-  template:
-    spec:
-      expireAfter: {{ .Values.expireAfter }}
+        {{- end }}
+      {{- with .kubelet }}
       kubelet:
-        # High threshold for Garbage Collection (GC) to prevent disk pressure (eviction usually starts at 85%)
-        imageGCHighThresholdPercent: {{ .Values.imageGCHighThresholdPercent }}
-        # Low threshold for GC to ensure ample space for new images
-        imageGCLowThresholdPercent: {{ .Values.imageGCLowThresholdPercent }}
-      nodeClassRef:
-        group: karpenter.k8s.aws
-        kind: EC2NodeClass
-        name: bottlerocket
-      requirements:
-        - key: "karpenter.k8s.aws/instance-hypervisor"
-          operator: In
-          values: ["nitro"]
-        - key: kubernetes.io/arch
-          operator: In
-          values:
-          {{- range .Values.allowedArch }}
-            - {{ . }}
-          {{- end }}
-        - key: kubernetes.io/os
-          operator: In
-          values: ["linux"]
-        - key: karpenter.sh/capacity-type
-          operator: In
-          values: ["on-demand", "spot"]
-        - key: karpenter.k8s.aws/instance-category
-          operator: In
-          values: ["c", "g", "m", "r"]
-        - key: karpenter.k8s.aws/instance-generation
-          operator: Gt
-          values: ["2"]
-
----
-{{- if .Values.hlb.enabled }}
-apiVersion: karpenter.sh/v1
-kind: NodePool
-metadata:
-  name: hlb-ami-86
-spec:
-  replicas: {{ .Values.replicas }}
-  disruption:
-    consolidateAfter: 30s
-    consolidationPolicy: WhenEmptyOrUnderutilized
-  template:
-    spec:
-      expireAfter: {{ .Values.expireAfter }}
-      nodeClassRef:
-        group: karpenter.k8s.aws
-        kind: EC2NodeClass
-        name: hlb-ami-x86
-      kubelet:
-        # High threshold for Garbage Collection (GC) to prevent disk pressure (eviction usually starts at 85%)
-        imageGCHighThresholdPercent: {{ .Values.imageGCHighThresholdPercent }}
-        # Low threshold for GC to ensure ample space for new images
-        imageGCLowThresholdPercent: {{ .Values.imageGCLowThresholdPercent }}
-      requirements:
-        - key: "karpenter.k8s.aws/instance-hypervisor"
-          operator: In
-          values: ["nitro"]
-        - key: kubernetes.io/arch
-          operator: In
-          values:
-          {{- range .Values.allowedArch }}
-            - {{ . }}
-          {{- end }}
-        - key: kubernetes.io/os
-          operator: In
-          values: ["linux"]
-        - key: karpenter.sh/capacity-type
-          operator: In
-          values: ["on-demand", "spot"]
-        - key: karpenter.k8s.aws/instance-category
-          operator: In
-          values: ["c", "m", "r"]
-        - key: karpenter.k8s.aws/instance-generation
-          operator: Gt
-          values: ["2"]
+        {{- if .image_gc_high_threshold_percent }}
+        imageGCHighThresholdPercent: {{ .image_gc_high_threshold_percent }}
+        {{- end }}
+        {{- if .image_gc_low_threshold_percent }}
+        imageGCLowThresholdPercent: {{ .image_gc_low_threshold_percent }}
+        {{- end }}
+      {{- end }}
+      {{- with .startup_taints }}
       startupTaints:
-        - key: node-role.kubernetes.io/hlb
-          effect: NoSchedule
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- with .disruption }}
+  disruption:
+    consolidationPolicy: {{ .consolidation_policy | default "WhenEmptyOrUnderutilized" }}
+    consolidateAfter: {{ .consolidate_after | default "30s" }}
+    expireAfter: {{ .expire_after | default "720h" }}
+  {{- end }}
+  {{- with .limits }}
+  limits:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if .weight }}
+  weight: {{ .weight }}
+  {{- end }}
 {{- end }}

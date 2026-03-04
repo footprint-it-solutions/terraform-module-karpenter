@@ -69,8 +69,72 @@ variable "node_security_group_id" {
   type        = string
 }
 
+variable "node_pools" {
+  description = "List of NodePool configurations. If null, defaults to AL2023 and Bottlerocket pools based on legacy variables."
+  type = list(object({
+    name           = string
+    node_class_ref = string
+    weight         = optional(number)
+    requirements = list(object({
+      key      = string
+      operator = string
+      values   = list(string)
+    }))
+    disruption = optional(object({
+      consolidation_policy = optional(string, "WhenEmptyOrUnderutilized")
+      consolidate_after    = optional(string, "30s")
+      expire_after         = optional(string, "720h")
+    }))
+    limits = optional(map(string), {})
+    kubelet = optional(object({
+      image_gc_high_threshold_percent = optional(number)
+      image_gc_low_threshold_percent  = optional(number)
+    }))
+    startup_taints = optional(list(object({
+      key    = string
+      value  = optional(string)
+      effect = string
+    })), [])
+  }))
+  default = null
+}
+
+variable "node_classes" {
+  description = "List of EC2NodeClass configurations. If null, defaults to AL2023 and Bottlerocket classes."
+  type = list(object({
+    name                          = string
+    ami_family                    = string
+    ami_selector_terms            = optional(list(any), [])
+    subnet_selector_terms         = list(any)
+    security_group_selector_terms = list(any)
+    role                          = optional(string, "eks-node")
+    metadata_options = optional(object({
+      httpEndpoint            = optional(string, "enabled")
+      httpProtocolIPv6        = optional(string, "disabled")
+      httpPutResponseHopLimit = optional(number, 2)
+      httpTokens              = optional(string, "required")
+    }), {
+      httpEndpoint            = "enabled"
+      httpProtocolIPv6        = "disabled"
+      httpPutResponseHopLimit = 2
+      httpTokens              = "required"
+    })
+    block_device_mappings = optional(list(object({
+      deviceName = string
+      ebs = object({
+        volumeSize          = string
+        volumeType          = string
+        encrypted           = optional(bool, true)
+        deleteOnTermination = optional(bool, true)
+      })
+    })), [])
+    tags = optional(map(string), {})
+  }))
+  default = null
+}
+
 variable "block_device_mappings" {
-  description = "Block device mappings for the EC2NodeClasses"
+  description = "(Deprecated) Block device mappings. Use var.node_classes for new configurations."
   type        = string
   default     = ""
 }

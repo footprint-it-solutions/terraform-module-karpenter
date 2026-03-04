@@ -8,9 +8,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 Use this section to track upcoming changes, to let people see what changes they might expect in
-upcoming relases.
+upcoming releases.
 
 At release time, move the entries from here to a new release section.
+
+## [2.3.0] - 2026-03-04
+
+### Added
+
+- Implement dynamic `NodePool` and `EC2NodeClass` configuration using `node_pools` and `node_classes` variables.
+- Added Go tests for Helm template rendering.
+
+### Changed
+
+- Refactored `helm_release.extras` to use `yamlencode` for values passing.
+- Deprecated `block_device_mappings` variable in favour of `node_classes` configuration.
 
 ## [2.2.0] - 2025-02-04
 

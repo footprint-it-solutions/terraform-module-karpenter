@@ -1,94 +1,40 @@
+{{- range .Values.ec2NodeClasses }}
 ---
 apiVersion: karpenter.k8s.aws/v1
 kind: EC2NodeClass
 metadata:
-  name: al2023
+  name: {{ .name }}
 spec:
-  amiFamily: AL2023
+  amiFamily: {{ .ami_family }}
+  {{- if .ami_selector_terms }}
   amiSelectorTerms:
-    - alias: al2023@v20251007
-  blockDeviceMappings:
-    {{- range $deviceName, $config := index .Values.blockDeviceMappings "al2023" }}
-    - deviceName: {{ $deviceName | quote }}
-      ebs:
-        deleteOnTermination: {{ default true $config.deleteOnTermination }}
-        volumeSize: {{ $config.volumeSize }}
-        volumeType: {{ default "gp3" $config.volumeType }}
-    {{- end }}
-  kubelet:
-    maxPods: 110
+    {{- toYaml .ami_selector_terms | nindent 4 }}
+  {{- end }}
+  role: {{ .role | default "eks-node" }}
+  subnetSelectorTerms:
+    {{- toYaml .subnet_selector_terms | nindent 4 }}
+  securityGroupSelectorTerms:
+    {{- toYaml .security_group_selector_terms | nindent 4 }}
+  {{- with .metadata_options }}
   metadataOptions:
-    httpEndpoint: enabled
-    httpProtocolIPv6: disabled
-    httpPutResponseHopLimit: 2 # This is changed to enable IMDS access from containers not on the host network
-    httpTokens: required
-  role: eks-node
-  securityGroupSelectorTerms:
-    - tags:
-        karpenter.sh/discovery: {{ .Values.clusterName }}
-  subnetSelectorTerms:
-    - tags:
-        karpenter.sh/discovery: {{ .Values.clusterName }}
-
----
-apiVersion: karpenter.k8s.aws/v1
-kind: EC2NodeClass
-metadata:
-  name: bottlerocket
-spec:
-  amiFamily: Bottlerocket
-  amiSelectorTerms:
-    - alias: bottlerocket@1.50.0
+    httpEndpoint: {{ .httpEndpoint | default "enabled" }}
+    httpProtocolIPv6: {{ .httpProtocolIPv6 | default "disabled" }}
+    httpPutResponseHopLimit: {{ .httpPutResponseHopLimit | default 2 }}
+    httpTokens: {{ .httpTokens | default "required" }}
+  {{- end }}
+  {{- if .block_device_mappings }}
   blockDeviceMappings:
-    {{- range $deviceName, $config := index .Values.blockDeviceMappings "bottlerocket" }}
-    - deviceName: {{ $deviceName | quote }}
+    {{- range .block_device_mappings }}
+    - deviceName: {{ .deviceName }}
       ebs:
-        deleteOnTermination: {{ default true $config.deleteOnTermination }}
-        volumeSize: {{ $config.volumeSize }}
-        volumeType: {{ default "gp3" $config.volumeType }}
+        volumeSize: {{ .ebs.volumeSize }}
+        volumeType: {{ .ebs.volumeType | default "gp3" }}
+        encrypted: {{ .ebs.encrypted | default true }}
+        deleteOnTermination: {{ .ebs.deleteOnTermination | default true }}
     {{- end }}
-  kubelet:
-    maxPods: 110
-  metadataOptions:
-    httpEndpoint: enabled
-    httpProtocolIPv6: disabled
-    httpPutResponseHopLimit: 2 # This is changed to enable IMDS access from containers not on the host network
-    httpTokens: required
-  role: eks-node
-  securityGroupSelectorTerms:
-    - tags:
-        karpenter.sh/discovery: {{ .Values.clusterName }}
-  subnetSelectorTerms:
-    - tags:
-        karpenter.sh/discovery: {{ .Values.clusterName }}
-
----
-# HLB hlb-ami node class using HLB custom AMI
-{{- if .Values.hlb.enabled }}
-apiVersion: karpenter.k8s.aws/v1
-kind: EC2NodeClass
-metadata:
-  name: hlb-ami-x86
-spec:
-  # We use AL2 amiFamily so Karpenter generates EKS bootstrap userdata
-  amiFamily: AL2
-  amiSelectorTerms:
-    - id: "{{ .Values.hlb.amiId }}"  # passed from Terraform
-  blockDeviceMappings:
-    {{- range $deviceName, $config := index .Values.blockDeviceMappings "hlb-ami-x86" }}
-    - deviceName: {{ $deviceName | quote }}
-      ebs:
-        deleteOnTermination: {{ default true $config.deleteOnTermination }}
-        volumeSize: {{ $config.volumeSize }}
-        volumeType: {{ default "gp3" $config.volumeType }}
-    {{- end }}
-  kubelet:
-    maxPods: 110
-  role: eks-node
-  securityGroupSelectorTerms:
-    - tags:
-        karpenter.sh/discovery: {{ .Values.clusterName }}
-  subnetSelectorTerms:
-    - tags:
-        karpenter.sh/discovery: {{ .Values.clusterName }}
+  {{- end }}
+  {{- if .tags }}
+  tags:
+    {{- toYaml .tags | nindent 4 }}
+  {{- end }}
 {{- end }}
