@@ -7,10 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Use this section to track upcoming changes, to let people see what changes they might expect in
-upcoming relases.
+### Added
 
-At release time, move the entries from here to a new release section.
+- Add `al2023_userdata` and `bottlerocket_userdata` variables to allow custom node bootstrap scripts in EC2NodeClasses.
 
 ## [2.2.0] - 2025-02-04
 
