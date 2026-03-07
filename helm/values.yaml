@@ -33,4 +33,7 @@ nodePoolWeight:
   al2023: 10
   bottlerocket: 20
 
+al2023UserData: ""
+bottlerocketUserData: ""
+
 replicas: 1

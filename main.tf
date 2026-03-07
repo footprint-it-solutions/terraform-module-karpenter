@@ -89,6 +89,11 @@ hlb:
   enabled: ${var.hlb != null}
   amiId: "${var.hlb != null ? var.hlb.ami_id : ""}"
 
+al2023UserData: |-
+${indent(2, var.al2023_userdata)}
+bottlerocketUserData: |-
+${indent(2, var.bottlerocket_userdata)}
+
 %{if var.block_device_mappings != ""~}
 ${var.block_device_mappings}
 %{endif~}

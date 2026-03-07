@@ -80,3 +80,15 @@ variable "feature_gates" {
   type        = map(bool)
   default     = {}
 }
+
+variable "al2023_userdata" {
+  description = "Custom UserData for AL2023 nodes. This will be merged with Karpenter's default bootstrap script."
+  type        = string
+  default     = ""
+}
+
+variable "bottlerocket_userdata" {
+  description = "Custom UserData for Bottlerocket nodes. Should be in TOML format."
+  type        = string
+  default     = ""
+}

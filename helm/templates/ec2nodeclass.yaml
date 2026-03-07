@@ -22,6 +22,10 @@ spec:
     httpProtocolIPv6: disabled
     httpPutResponseHopLimit: 2 # This is changed to enable IMDS access from containers not on the host network
     httpTokens: required
+  {{- if .Values.al2023UserData }}
+  userData: |-
+{{ .Values.al2023UserData | indent 4 }}
+  {{- end }}
   role: eks-node
   securityGroupSelectorTerms:
     - tags:
@@ -54,6 +58,10 @@ spec:
     httpProtocolIPv6: disabled
     httpPutResponseHopLimit: 2 # This is changed to enable IMDS access from containers not on the host network
     httpTokens: required
+  {{- if .Values.bottlerocketUserData }}
+  userData: |-
+{{ .Values.bottlerocketUserData | indent 4 }}
+  {{- end }}
   role: eks-node
   securityGroupSelectorTerms:
     - tags:
