@@ -7,10 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Use this section to track upcoming changes, to let people see what changes they might expect in
-upcoming relases.
+### Added
 
-At release time, move the entries from here to a new release section.
+- Introduced `excluded_instance_sizes` variable to allow configurable exclusion of AWS instance sizes (e.g. nano, micro, small, medium) from NodePools.
+- Added consistent instance size requirements to all NodePools.
+- Added `enable_al2023` and `enable_bottlerocket` variables to toggle NodePool and EC2NodeClass for each AMI family.
+- Added support for custom UserData for both AL2023 and Bottlerocket via `al2023_userdata` and `bottlerocket_userdata`.
+- Added `topologySpreadConstraints` and `extraRequirements` support for AL2023 and Bottlerocket NodePools.
+- Integrated `nodePoolWeight` into NodePool specifications.
+- Updated Bottlerocket AMI selector to use `bottlerocket@v1` alias.
+
+### Removed
+
+- Removed the previously introduced `minInstanceCpu` variable in favour of `excludedInstanceSizes`.
 
 ## [2.2.0] - 2025-02-04
 
