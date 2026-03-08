@@ -39,7 +39,7 @@ spec:
           values: ["on-demand", "spot"]
         - key: karpenter.k8s.aws/instance-cpu
           operator: Gt
-          values: ["2"]
+          values: ["{{ .Values.minInstanceCpu }}"]
         - key: karpenter.k8s.aws/instance-category
           operator: In
           values: ["c", "g", "m", "r"]
@@ -88,7 +88,7 @@ spec:
           values: ["on-demand", "spot"]
         - key: karpenter.k8s.aws/instance-cpu
           operator: Gt
-          values: ["2"]
+          values: ["{{ .Values.minInstanceCpu }}"]
         - key: karpenter.k8s.aws/instance-category
           operator: In
           values: ["c", "g", "m", "r"]
@@ -135,6 +135,9 @@ spec:
         - key: karpenter.sh/capacity-type
           operator: In
           values: ["on-demand", "spot"]
+        - key: karpenter.k8s.aws/instance-cpu
+          operator: Gt
+          values: ["{{ .Values.minInstanceCpu }}"]
         - key: karpenter.k8s.aws/instance-category
           operator: In
           values: ["c", "m", "r"]

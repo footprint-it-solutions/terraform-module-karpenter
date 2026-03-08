@@ -7,11 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Use this section to track upcoming changes, to let people see what changes they might expect in
-upcoming relases.
+### Added
 
-At release time, move the entries from here to a new release section.
+- Introduced `minInstanceCpu` variable to allow configurable minimum CPU requirement for node pools.
+- Added consistent CPU requirement to the `hlb-ami-86` NodePool.
 
+### Removed
+
+- Removed unused `excludedInstanceSizes` from `values.yaml`.
 
 ## [2.0.0] - 2025-12-05
 
