@@ -74,6 +74,10 @@ resource "helm_release" "extras" {
     {
       name  = "allowedArch"
       value = var.allowed_arch
+    },
+    {
+      name  = "excludedInstanceSizes"
+      value = var.excluded_instance_sizes
     }
   ]
 
@@ -84,10 +88,6 @@ resource "helm_release" "extras" {
 expireAfter: ${var.expire_after}
 imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
 imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
-
-hlb:
-  enabled: ${var.hlb != null}
-  amiId: "${var.hlb != null ? var.hlb.ami_id : ""}"
 
 al2023:
   enabled: ${var.enable_al2023}

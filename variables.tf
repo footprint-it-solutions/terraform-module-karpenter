@@ -11,6 +11,17 @@ variable "allowed_arch" {
   ]
 }
 
+variable "excluded_instance_sizes" {
+  description = "AWS instance sizes to exclude from the NodePools (e.g. nano, micro, small, medium)"
+  type        = set(string)
+  default     = [
+    "nano",
+    "micro",
+    "small",
+    "medium"
+  ]
+}
+
 variable "aws_account_id" {
   description = "AWS account ID"
   type        = string
@@ -25,14 +36,6 @@ variable "expire_after" {
   description = "This ensures nodes are recycled weekly, preventing the accumulation of stale images over long periods."
   type        = string
   default     = "168h" # 7 days
-}
-
-variable "hlb" {
-  description = "Configuration for HLB. If provided, HLB is enabled."
-  type = object({
-    ami_id = string
-  })
-  default = null
 }
 
 variable "image_gc_high_threshold_percent" {
