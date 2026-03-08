@@ -6,6 +6,7 @@ metadata:
     karpenter.sh/nodepool: al2023
   name: al2023
 spec:
+  weight: {{ index .Values.nodePoolWeight "al2023" }}
   disruption:
     consolidateAfter: 30s
     consolidationPolicy: WhenEmptyOrUnderutilized
@@ -58,6 +59,7 @@ metadata:
     karpenter.sh/nodepool: bottlerocket
   name: bottlerocket
 spec:
+  weight: {{ index .Values.nodePoolWeight "bottlerocket" }}
   disruption:
     consolidateAfter: 30s
     consolidationPolicy: WhenEmptyOrUnderutilized
