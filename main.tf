@@ -89,8 +89,10 @@ expireAfter: ${var.expire_after}
 imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
 imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
 
-nodePools: ${yamlencode(var.node_pools)}
-nodeClasses: ${yamlencode(var.node_classes)}
+nodePools:
+${indent(2, yamlencode(var.node_pools))}
+nodeClasses:
+${indent(2, yamlencode(var.node_classes))}
 
 al2023:
   enabled: ${var.enable_al2023}
