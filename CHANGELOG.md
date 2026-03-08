@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Use this section to track upcoming changes, to let people see what changes they might expect in
 upcoming relases.
 
+### Removed
+
+- Removed HLB (High-Level Bridge) configuration and templates.
+
 At release time, move the entries from here to a new release section.
 
 ## [2.2.0] - 2025-02-04
