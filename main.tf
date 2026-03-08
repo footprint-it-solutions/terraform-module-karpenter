@@ -89,10 +89,6 @@ expireAfter: ${var.expire_after}
 imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
 imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
 
-hlb:
-  enabled: ${var.hlb != null}
-  amiId: "${var.hlb != null ? var.hlb.ami_id : ""}"
-
 %{if var.block_device_mappings != ""~}
 ${var.block_device_mappings}
 %{endif~}

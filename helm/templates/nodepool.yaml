@@ -6,6 +6,7 @@ metadata:
     karpenter.sh/nodepool: al2023
   name: al2023
 spec:
+  weight: {{ .Values.nodePoolWeight.al2023 }}
   disruption:
     consolidateAfter: 30s
     consolidationPolicy: WhenEmptyOrUnderutilized
@@ -58,6 +59,7 @@ metadata:
     karpenter.sh/nodepool: bottlerocket
   name: bottlerocket
 spec:
+  weight: {{ .Values.nodePoolWeight.bottlerocket }}
   disruption:
     consolidateAfter: 30s
     consolidationPolicy: WhenEmptyOrUnderutilized
@@ -101,59 +103,3 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
-
----
-{{- if .Values.hlb.enabled }}
-apiVersion: karpenter.sh/v1
-kind: NodePool
-metadata:
-  name: hlb-ami-86
-spec:
-  replicas: {{ .Values.replicas }}
-  disruption:
-    consolidateAfter: 30s
-    consolidationPolicy: WhenEmptyOrUnderutilized
-  template:
-    spec:
-      expireAfter: {{ .Values.expireAfter }}
-      nodeClassRef:
-        group: karpenter.k8s.aws
-        kind: EC2NodeClass
-        name: hlb-ami-x86
-      kubelet:
-        # High threshold for Garbage Collection (GC) to prevent disk pressure (eviction usually starts at 85%)
-        imageGCHighThresholdPercent: {{ .Values.imageGCHighThresholdPercent }}
-        # Low threshold for GC to ensure ample space for new images
-        imageGCLowThresholdPercent: {{ .Values.imageGCLowThresholdPercent }}
-      requirements:
-        - key: "karpenter.k8s.aws/instance-hypervisor"
-          operator: In
-          values: ["nitro"]
-        - key: kubernetes.io/arch
-          operator: In
-          values:
-          {{- range .Values.allowedArch }}
-            - {{ . }}
-          {{- end }}
-        - key: kubernetes.io/os
-          operator: In
-          values: ["linux"]
-        - key: karpenter.sh/capacity-type
-          operator: In
-          values: ["on-demand", "spot"]
-        - key: karpenter.k8s.aws/instance-size
-          operator: NotIn
-          values:
-          {{- range .Values.excludedInstanceSizes }}
-            - {{ . }}
-          {{- end }}
-        - key: karpenter.k8s.aws/instance-category
-          operator: In
-          values: ["c", "m", "r"]
-        - key: karpenter.k8s.aws/instance-generation
-          operator: Gt
-          values: ["2"]
-      startupTaints:
-        - key: node-role.kubernetes.io/hlb
-          effect: NoSchedule
-{{- end }}

@@ -15,7 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 - Removed the previously introduced `minInstanceCpu` variable in favour of `excludedInstanceSizes`.
-- 
+- Removed HLB configuration and related resources (NodePool and EC2NodeClass).
+
 ## [2.2.0] - 2025-02-04
 
 ### Added
