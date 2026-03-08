@@ -27,14 +27,6 @@ variable "expire_after" {
   default     = "168h" # 7 days
 }
 
-variable "hlb" {
-  description = "Configuration for HLB. If provided, HLB is enabled."
-  type = object({
-    ami_id = string
-  })
-  default = null
-}
-
 variable "image_gc_high_threshold_percent" {
   description = "Garbage collection starts at 70% to prevent disk pressure (eviction usually starts at 85%)"
   type        = number

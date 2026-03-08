@@ -13,24 +13,3 @@ blockDeviceMappings:
     /dev/xvdb:
       volumeSize: 40Gi
       volumeType: gp3
-  hlb-ami-x86:
-    /dev/xvda:
-      volumeSize: 40Gi
-      volumeType: gp3
-
-excludedInstanceSizes:
-  - nano
-  - micro
-  - small
-  - medium
-
-hlb:
-  enabled: false        # other clusters will keep this default
-  amiId: ""             # set from Terraform in the dev cluster
-
-# Prefer Bottlerocket over AL2023 by assigning a higher weight
-nodePoolWeight:
-  al2023: 10
-  bottlerocket: 20
-
-replicas: 1
