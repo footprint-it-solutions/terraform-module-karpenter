@@ -11,6 +11,17 @@ variable "allowed_arch" {
   ]
 }
 
+variable "excluded_instance_sizes" {
+  description = "AWS instance sizes to exclude from the NodePools (e.g. nano, micro, small, medium)"
+  type        = set(string)
+  default     = [
+    "nano",
+    "micro",
+    "small",
+    "medium"
+  ]
+}
+
 variable "aws_account_id" {
   description = "AWS account ID"
   type        = string

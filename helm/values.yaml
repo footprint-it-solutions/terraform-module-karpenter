@@ -18,7 +18,11 @@ blockDeviceMappings:
       volumeSize: 40Gi
       volumeType: gp3
 
-minInstanceCpu: "2"
+excludedInstanceSizes:
+  - nano
+  - micro
+  - small
+  - medium
 
 hlb:
   enabled: false        # other clusters will keep this default

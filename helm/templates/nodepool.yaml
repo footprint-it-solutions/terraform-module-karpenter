@@ -37,9 +37,12 @@ spec:
         - key: karpenter.sh/capacity-type
           operator: In
           values: ["on-demand", "spot"]
-        - key: karpenter.k8s.aws/instance-cpu
-          operator: Gt
-          values: ["{{ .Values.minInstanceCpu }}"]
+        - key: karpenter.k8s.aws/instance-size
+          operator: NotIn
+          values:
+          {{- range .Values.excludedInstanceSizes }}
+            - {{ . }}
+          {{- end }}
         - key: karpenter.k8s.aws/instance-category
           operator: In
           values: ["c", "g", "m", "r"]
@@ -86,9 +89,12 @@ spec:
         - key: karpenter.sh/capacity-type
           operator: In
           values: ["on-demand", "spot"]
-        - key: karpenter.k8s.aws/instance-cpu
-          operator: Gt
-          values: ["{{ .Values.minInstanceCpu }}"]
+        - key: karpenter.k8s.aws/instance-size
+          operator: NotIn
+          values:
+          {{- range .Values.excludedInstanceSizes }}
+            - {{ . }}
+          {{- end }}
         - key: karpenter.k8s.aws/instance-category
           operator: In
           values: ["c", "g", "m", "r"]
@@ -135,9 +141,12 @@ spec:
         - key: karpenter.sh/capacity-type
           operator: In
           values: ["on-demand", "spot"]
-        - key: karpenter.k8s.aws/instance-cpu
-          operator: Gt
-          values: ["{{ .Values.minInstanceCpu }}"]
+        - key: karpenter.k8s.aws/instance-size
+          operator: NotIn
+          values:
+          {{- range .Values.excludedInstanceSizes }}
+            - {{ . }}
+          {{- end }}
         - key: karpenter.k8s.aws/instance-category
           operator: In
           values: ["c", "m", "r"]

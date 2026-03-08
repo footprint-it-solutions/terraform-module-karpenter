@@ -9,12 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Introduced `minInstanceCpu` variable to allow configurable minimum CPU requirement for node pools.
-- Added consistent CPU requirement to the `hlb-ami-86` NodePool.
+- Introduced `excluded_instance_sizes` variable to allow configurable exclusion of AWS instance sizes (e.g. nano, micro, small, medium) from NodePools.
+- Added consistent instance size requirements to all NodePools.
 
 ### Removed
 
-- Removed unused `excludedInstanceSizes` from `values.yaml`.
+- Removed the previously introduced `minInstanceCpu` variable in favour of `excludedInstanceSizes`.
 
 ## [2.0.0] - 2025-12-05
 
