@@ -7,11 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Use this section to track upcoming changes, to let people see what changes they might expect in
-upcoming relases.
+### Added
 
-At release time, move the entries from here to a new release section.
+- Introduced `excluded_instance_sizes` variable to allow configurable exclusion of AWS instance sizes (e.g. nano, micro, small, medium) from NodePools.
+- Added consistent instance size requirements to all NodePools.
 
+### Removed
+
+- Removed the previously introduced `minInstanceCpu` variable in favour of `excludedInstanceSizes`.
+- 
 ## [2.2.0] - 2025-02-04
 
 ### Added

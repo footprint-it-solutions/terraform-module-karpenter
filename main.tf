@@ -74,6 +74,10 @@ resource "helm_release" "extras" {
     {
       name  = "allowedArch"
       value = var.allowed_arch
+    },
+    {
+      name  = "excludedInstanceSizes"
+      value = var.excluded_instance_sizes
     }
   ]
 
