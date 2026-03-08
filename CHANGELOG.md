@@ -7,22 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Use this section to track upcoming changes, to let people see what changes they might expect in
-upcoming releases.
-
-At release time, move the entries from here to a new release section.
-
-## [2.3.0] - 2026-03-04
-
 ### Added
 
-- Implement dynamic `NodePool` and `EC2NodeClass` configuration using `node_pools` and `node_classes` variables.
-- Added Go tests for Helm template rendering.
+- Introduced `node_pools` and `node_classes` variables to enable dynamic creation of arbitrary Karpenter NodePool and EC2NodeClass resources.
+- Supported sharing a single EC2NodeClass across multiple NodePools (e.g. for AZ-specific pools).
+- Refactored Helm templates to use loops for dynamic resource generation while maintaining backwards compatibility with legacy variables.
+- Introduced `excluded_instance_sizes` variable to allow configurable exclusion of AWS instance sizes (e.g. nano, micro, small, medium) from NodePools.
+- Added consistent instance size requirements to all NodePools.
+- Added `enable_al2023` and `enable_bottlerocket` variables to toggle NodePool and EC2NodeClass for each AMI family.
+- Added support for custom UserData for both AL2023 and Bottlerocket via `al2023_userdata` and `bottlerocket_userdata`.
+- Added `topologySpreadConstraints` and `extraRequirements` support for AL2023 and Bottlerocket NodePools.
+- Integrated `nodePoolWeight` into NodePool specifications.
+- Updated Bottlerocket AMI selector to use `bottlerocket@v1` alias.
 
-### Changed
+### Removed
 
-- Refactored `helm_release.extras` to use `yamlencode` for values passing.
-- Deprecated `block_device_mappings` variable in favour of `node_classes` configuration.
+- Removed the previously introduced `minInstanceCpu` variable in favour of `excludedInstanceSizes`.
+- Removed HLB configuration and related resources (NodePool and EC2NodeClass).
 
 ## [2.2.0] - 2025-02-04
 

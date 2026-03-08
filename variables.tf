@@ -11,6 +11,17 @@ variable "allowed_arch" {
   ]
 }
 
+variable "excluded_instance_sizes" {
+  description = "AWS instance sizes to exclude from the NodePools (e.g. nano, micro, small, medium)"
+  type        = set(string)
+  default     = [
+    "nano",
+    "micro",
+    "small",
+    "medium"
+  ]
+}
+
 variable "aws_account_id" {
   description = "AWS account ID"
   type        = string
@@ -25,14 +36,6 @@ variable "expire_after" {
   description = "This ensures nodes are recycled weekly, preventing the accumulation of stale images over long periods."
   type        = string
   default     = "168h" # 7 days
-}
-
-variable "hlb" {
-  description = "Configuration for HLB. If provided, HLB is enabled."
-  type = object({
-    ami_id = string
-  })
-  default = null
 }
 
 variable "image_gc_high_threshold_percent" {
@@ -70,71 +73,19 @@ variable "node_security_group_id" {
 }
 
 variable "node_pools" {
-  description = "List of NodePool configurations. If null, defaults to AL2023 and Bottlerocket pools based on legacy variables."
-  type = list(object({
-    name           = string
-    node_class_ref = string
-    weight         = optional(number)
-    requirements = list(object({
-      key      = string
-      operator = string
-      values   = list(string)
-    }))
-    disruption = optional(object({
-      consolidation_policy = optional(string, "WhenEmptyOrUnderutilized")
-      consolidate_after    = optional(string, "30s")
-      expire_after         = optional(string, "720h")
-    }))
-    limits = optional(map(string), {})
-    kubelet = optional(object({
-      image_gc_high_threshold_percent = optional(number)
-      image_gc_low_threshold_percent  = optional(number)
-    }))
-    startup_taints = optional(list(object({
-      key    = string
-      value  = optional(string)
-      effect = string
-    })), [])
-  }))
-  default = null
+  description = "A map of NodePool configurations to create. If provided, these will be created in addition to (or instead of) the default AL2023 and Bottlerocket pools."
+  type        = any
+  default     = {}
 }
 
 variable "node_classes" {
-  description = "List of EC2NodeClass configurations. If null, defaults to AL2023 and Bottlerocket classes."
-  type = list(object({
-    name                          = string
-    ami_family                    = string
-    ami_selector_terms            = optional(list(any), [])
-    subnet_selector_terms         = list(any)
-    security_group_selector_terms = list(any)
-    role                          = optional(string, "eks-node")
-    metadata_options = optional(object({
-      httpEndpoint            = optional(string, "enabled")
-      httpProtocolIPv6        = optional(string, "disabled")
-      httpPutResponseHopLimit = optional(number, 2)
-      httpTokens              = optional(string, "required")
-    }), {
-      httpEndpoint            = "enabled"
-      httpProtocolIPv6        = "disabled"
-      httpPutResponseHopLimit = 2
-      httpTokens              = "required"
-    })
-    block_device_mappings = optional(list(object({
-      deviceName = string
-      ebs = object({
-        volumeSize          = string
-        volumeType          = string
-        encrypted           = optional(bool, true)
-        deleteOnTermination = optional(bool, true)
-      })
-    })), [])
-    tags = optional(map(string), {})
-  }))
-  default = null
+  description = "A map of EC2NodeClass configurations to create. If provided, these will be created in addition to (or instead of) the default AL2023 and Bottlerocket classes."
+  type        = any
+  default     = {}
 }
 
 variable "block_device_mappings" {
-  description = "(Deprecated) Block device mappings. Use var.node_classes for new configurations."
+  description = "(Deprecated) Block device mappings for the EC2NodeClasses. Use 'node_classes' for more granular configuration."
   type        = string
   default     = ""
 }
@@ -143,4 +94,52 @@ variable "feature_gates" {
   description = "Feature gates to enable or disable in the Karpenter controller"
   type        = map(bool)
   default     = {}
+}
+
+variable "al2023_userdata" {
+  description = "Custom UserData for AL2023 nodes. This will be merged with Karpenter's default bootstrap script."
+  type        = string
+  default     = ""
+}
+
+variable "bottlerocket_userdata" {
+  description = "Custom UserData for Bottlerocket nodes. Should be in TOML format."
+  type        = string
+  default     = ""
+}
+
+variable "enable_al2023" {
+  description = "Enable the AL2023 NodePool and EC2NodeClass"
+  type        = bool
+  default     = true
+}
+
+variable "enable_bottlerocket" {
+  description = "Enable the Bottlerocket NodePool and EC2NodeClass"
+  type        = bool
+  default     = true
+}
+
+variable "al2023_topology_spread_constraints" {
+  description = "Topology spread constraints for AL2023 NodePool (YAML string)"
+  type        = string
+  default     = "[]"
+}
+
+variable "al2023_extra_requirements" {
+  description = "Extra requirements for AL2023 NodePool (YAML string)"
+  type        = string
+  default     = "[]"
+}
+
+variable "bottlerocket_topology_spread_constraints" {
+  description = "Topology spread constraints for Bottlerocket NodePool (YAML string)"
+  type        = string
+  default     = "[]"
+}
+
+variable "bottlerocket_extra_requirements" {
+  description = "Extra requirements for Bottlerocket NodePool (YAML string)"
+  type        = string
+  default     = "[]"
 }

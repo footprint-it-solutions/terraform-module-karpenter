@@ -1,4 +1,13 @@
 ---
+# Default Karpenter global settings
+expireAfter: 168h
+imageGCHighThresholdPercent: 70
+imageGCLowThresholdPercent: 50
+
+# Dynamic NodePool and EC2NodeClass configuration
+nodePools: {}
+nodeClasses: {}
+
 allowedArch:
   - amd64
 blockDeviceMappings:
@@ -13,10 +22,6 @@ blockDeviceMappings:
     /dev/xvdb:
       volumeSize: 40Gi
       volumeType: gp3
-  hlb-ami-x86:
-    /dev/xvda:
-      volumeSize: 40Gi
-      volumeType: gp3
 
 excludedInstanceSizes:
   - nano
@@ -24,13 +29,21 @@ excludedInstanceSizes:
   - small
   - medium
 
-hlb:
-  enabled: false        # other clusters will keep this default
-  amiId: ""             # set from Terraform in the dev cluster
-
 # Prefer Bottlerocket over AL2023 by assigning a higher weight
 nodePoolWeight:
   al2023: 10
   bottlerocket: 20
+
+al2023:
+  enabled: true
+  topologySpreadConstraints: []
+  extraRequirements: []
+bottlerocket:
+  enabled: true
+  topologySpreadConstraints: []
+  extraRequirements: []
+
+al2023UserData: ""
+bottlerocketUserData: ""
 
 replicas: 1

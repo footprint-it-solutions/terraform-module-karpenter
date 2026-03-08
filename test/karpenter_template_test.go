@@ -15,11 +15,10 @@ func TestKarpenterNodePoolTemplate(t *testing.T) {
 	options := &helm.Options{
 		ValuesFiles: []string{},
 		SetValues: map[string]string{
-			"nodePools[0].name":           "test-pool",
-			"nodePools[0].node_class_ref": "test-class",
-			"nodePools[0].requirements[0].key": "kubernetes.io/arch",
-			"nodePools[0].requirements[0].operator": "In",
-			"nodePools[0].requirements[0].values[0]": "amd64",
+			"nodePools.test-pool.nodeClassRef": "test-class",
+			"nodePools.test-pool.extraRequirements[0].key": "kubernetes.io/arch",
+			"nodePools.test-pool.extraRequirements[0].operator": "In",
+			"nodePools.test-pool.extraRequirements[0].values[0]": "amd64",
 		},
 	}
 
@@ -42,10 +41,9 @@ func TestKarpenterEC2NodeClassTemplate(t *testing.T) {
 	options := &helm.Options{
 		ValuesFiles: []string{},
 		SetValues: map[string]string{
-			"ec2NodeClasses[0].name": "test-class",
-			"ec2NodeClasses[0].ami_family": "AL2023",
-			"ec2NodeClasses[0].subnet_selector_terms[0].tags.karpenter\\.sh/discovery": "my-cluster",
-			"ec2NodeClasses[0].security_group_selector_terms[0].tags.karpenter\\.sh/discovery": "my-cluster",
+			"nodeClasses.test-class.amiFamily": "AL2023",
+			"nodeClasses.test-class.subnetSelectorTerms[0].tags.karpenter\\.sh/discovery": "my-cluster",
+			"nodeClasses.test-class.securityGroupSelectorTerms[0].tags.karpenter\\.sh/discovery": "my-cluster",
 		},
 	}
 
