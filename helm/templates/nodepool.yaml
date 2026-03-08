@@ -1,3 +1,4 @@
+{{- if .Values.al2023.enabled }}
 ---
 apiVersion: karpenter.sh/v1
 kind: NodePool
@@ -6,6 +7,7 @@ metadata:
     karpenter.sh/nodepool: al2023
   name: al2023
 spec:
+  weight: {{ .Values.nodePoolWeight.al2023 }}
   disruption:
     consolidateAfter: 30s
     consolidationPolicy: WhenEmptyOrUnderutilized
@@ -43,7 +45,9 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
+{{- end }}
 
+{{- if .Values.bottlerocket.enabled }}
 ---
 apiVersion: karpenter.sh/v1
 kind: NodePool
@@ -52,6 +56,7 @@ metadata:
     karpenter.sh/nodepool: bottlerocket
   name: bottlerocket
 spec:
+  weight: {{ .Values.nodePoolWeight.bottlerocket }}
   disruption:
     consolidateAfter: 30s
     consolidationPolicy: WhenEmptyOrUnderutilized
@@ -89,6 +94,7 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
+{{- end }}
 
 ---
 {{- if .Values.hlb.enabled }}

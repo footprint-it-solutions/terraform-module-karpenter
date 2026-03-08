@@ -80,3 +80,27 @@ variable "feature_gates" {
   type        = map(bool)
   default     = {}
 }
+
+variable "al2023_userdata" {
+  description = "Custom UserData for AL2023 nodes. This will be merged with Karpenter's default bootstrap script."
+  type        = string
+  default     = ""
+}
+
+variable "bottlerocket_userdata" {
+  description = "Custom UserData for Bottlerocket nodes. Should be in TOML format."
+  type        = string
+  default     = ""
+}
+
+variable "enable_al2023" {
+  description = "Enable the AL2023 NodePool and EC2NodeClass"
+  type        = bool
+  default     = true
+}
+
+variable "enable_bottlerocket" {
+  description = "Enable the Bottlerocket NodePool and EC2NodeClass"
+  type        = bool
+  default     = true
+}
