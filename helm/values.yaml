@@ -35,8 +35,12 @@ nodePoolWeight:
 
 al2023:
   enabled: true
+  topologySpreadConstraints: []
+  extraRequirements: []
 bottlerocket:
   enabled: true
+  topologySpreadConstraints: []
+  extraRequirements: []
 
 al2023UserData: ""
 bottlerocketUserData: ""

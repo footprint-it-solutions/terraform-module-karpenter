@@ -91,8 +91,12 @@ hlb:
 
 al2023:
   enabled: ${var.enable_al2023}
+  topologySpreadConstraints: ${var.al2023_topology_spread_constraints}
+  extraRequirements: ${var.al2023_extra_requirements}
 bottlerocket:
   enabled: ${var.enable_bottlerocket}
+  topologySpreadConstraints: ${var.bottlerocket_topology_spread_constraints}
+  extraRequirements: ${var.bottlerocket_extra_requirements}
 
 al2023UserData: |-
 ${indent(2, var.al2023_userdata)}

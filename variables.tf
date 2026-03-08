@@ -104,3 +104,27 @@ variable "enable_bottlerocket" {
   type        = bool
   default     = true
 }
+
+variable "al2023_topology_spread_constraints" {
+  description = "Topology spread constraints for AL2023 NodePool (YAML string)"
+  type        = string
+  default     = "[]"
+}
+
+variable "al2023_extra_requirements" {
+  description = "Extra requirements for AL2023 NodePool (YAML string)"
+  type        = string
+  default     = "[]"
+}
+
+variable "bottlerocket_topology_spread_constraints" {
+  description = "Topology spread constraints for Bottlerocket NodePool (YAML string)"
+  type        = string
+  default     = "[]"
+}
+
+variable "bottlerocket_extra_requirements" {
+  description = "Extra requirements for Bottlerocket NodePool (YAML string)"
+  type        = string
+  default     = "[]"
+}
