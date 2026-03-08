@@ -89,6 +89,20 @@ expireAfter: ${var.expire_after}
 imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
 imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
 
+al2023:
+  enabled: ${var.enable_al2023}
+  topologySpreadConstraints: ${var.al2023_topology_spread_constraints}
+  extraRequirements: ${var.al2023_extra_requirements}
+bottlerocket:
+  enabled: ${var.enable_bottlerocket}
+  topologySpreadConstraints: ${var.bottlerocket_topology_spread_constraints}
+  extraRequirements: ${var.bottlerocket_extra_requirements}
+
+al2023UserData: |-
+${indent(2, var.al2023_userdata)}
+bottlerocketUserData: |-
+${indent(2, var.bottlerocket_userdata)}
+
 %{if var.block_device_mappings != ""~}
 ${var.block_device_mappings}
 %{endif~}

@@ -1,3 +1,4 @@
+{{- if .Values.al2023.enabled }}
 ---
 apiVersion: karpenter.sh/v1
 kind: NodePool
@@ -22,6 +23,10 @@ spec:
         imageGCHighThresholdPercent: {{ .Values.imageGCHighThresholdPercent }}
         # Low threshold for GC to ensure ample space for new images
         imageGCLowThresholdPercent: {{ .Values.imageGCLowThresholdPercent }}
+      {{- if .Values.al2023.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.al2023.topologySpreadConstraints | nindent 8 }}
+      {{- end }}
       requirements:
         - key: "karpenter.k8s.aws/instance-hypervisor"
           operator: In
@@ -50,7 +55,12 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
+        {{- if .Values.al2023.extraRequirements }}
+        {{- toYaml .Values.al2023.extraRequirements | nindent 8 }}
+        {{- end }}
+{{- end }}
 
+{{- if .Values.bottlerocket.enabled }}
 ---
 apiVersion: karpenter.sh/v1
 kind: NodePool
@@ -75,6 +85,10 @@ spec:
         group: karpenter.k8s.aws
         kind: EC2NodeClass
         name: bottlerocket
+      {{- if .Values.bottlerocket.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml .Values.bottlerocket.topologySpreadConstraints | nindent 8 }}
+      {{- end }}
       requirements:
         - key: "karpenter.k8s.aws/instance-hypervisor"
           operator: In
@@ -103,3 +117,7 @@ spec:
         - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["2"]
+        {{- if .Values.bottlerocket.extraRequirements }}
+        {{- toYaml .Values.bottlerocket.extraRequirements | nindent 8 }}
+        {{- end }}
+{{- end }}

@@ -1,3 +1,4 @@
+{{- if .Values.al2023.enabled }}
 ---
 apiVersion: karpenter.k8s.aws/v1
 kind: EC2NodeClass
@@ -22,6 +23,10 @@ spec:
     httpProtocolIPv6: disabled
     httpPutResponseHopLimit: 2 # This is changed to enable IMDS access from containers not on the host network
     httpTokens: required
+  {{- if .Values.al2023UserData }}
+  userData: |-
+{{ .Values.al2023UserData | indent 4 }}
+  {{- end }}
   role: eks-node
   securityGroupSelectorTerms:
     - tags:
@@ -29,7 +34,9 @@ spec:
   subnetSelectorTerms:
     - tags:
         karpenter.sh/discovery: {{ .Values.clusterName }}
+{{- end }}
 
+{{- if .Values.bottlerocket.enabled }}
 ---
 apiVersion: karpenter.k8s.aws/v1
 kind: EC2NodeClass
@@ -38,7 +45,7 @@ metadata:
 spec:
   amiFamily: Bottlerocket
   amiSelectorTerms:
-    - alias: bottlerocket@1.50.0
+    - alias: bottlerocket@v1
   blockDeviceMappings:
     {{- range $deviceName, $config := index .Values.blockDeviceMappings "bottlerocket" }}
     - deviceName: {{ $deviceName | quote }}
@@ -54,6 +61,10 @@ spec:
     httpProtocolIPv6: disabled
     httpPutResponseHopLimit: 2 # This is changed to enable IMDS access from containers not on the host network
     httpTokens: required
+  {{- if .Values.bottlerocketUserData }}
+  userData: |-
+{{ .Values.bottlerocketUserData | indent 4 }}
+  {{- end }}
   role: eks-node
   securityGroupSelectorTerms:
     - tags:
@@ -61,3 +72,4 @@ spec:
   subnetSelectorTerms:
     - tags:
         karpenter.sh/discovery: {{ .Values.clusterName }}
+{{- end }}

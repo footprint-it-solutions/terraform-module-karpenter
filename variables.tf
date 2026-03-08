@@ -83,3 +83,51 @@ variable "feature_gates" {
   type        = map(bool)
   default     = {}
 }
+
+variable "al2023_userdata" {
+  description = "Custom UserData for AL2023 nodes. This will be merged with Karpenter's default bootstrap script."
+  type        = string
+  default     = ""
+}
+
+variable "bottlerocket_userdata" {
+  description = "Custom UserData for Bottlerocket nodes. Should be in TOML format."
+  type        = string
+  default     = ""
+}
+
+variable "enable_al2023" {
+  description = "Enable the AL2023 NodePool and EC2NodeClass"
+  type        = bool
+  default     = true
+}
+
+variable "enable_bottlerocket" {
+  description = "Enable the Bottlerocket NodePool and EC2NodeClass"
+  type        = bool
+  default     = true
+}
+
+variable "al2023_topology_spread_constraints" {
+  description = "Topology spread constraints for AL2023 NodePool (YAML string)"
+  type        = string
+  default     = "[]"
+}
+
+variable "al2023_extra_requirements" {
+  description = "Extra requirements for AL2023 NodePool (YAML string)"
+  type        = string
+  default     = "[]"
+}
+
+variable "bottlerocket_topology_spread_constraints" {
+  description = "Topology spread constraints for Bottlerocket NodePool (YAML string)"
+  type        = string
+  default     = "[]"
+}
+
+variable "bottlerocket_extra_requirements" {
+  description = "Extra requirements for Bottlerocket NodePool (YAML string)"
+  type        = string
+  default     = "[]"
+}
