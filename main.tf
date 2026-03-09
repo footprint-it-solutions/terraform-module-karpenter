@@ -90,9 +90,9 @@ imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
 imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
 
 nodePools:
-${indent(2, yamlencode(var.node_pools))}
+  ${indent(2, yamlencode(var.node_pools))}
 nodeClasses:
-${indent(2, yamlencode(var.node_classes))}
+  ${indent(2, yamlencode(var.node_classes))}
 
 al2023:
   enabled: ${var.enable_al2023}
