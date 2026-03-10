@@ -83,7 +83,13 @@ metadata:
 spec:
   amiFamily: {{ default "AL2023" $config.amiFamily }}
   amiSelectorTerms:
-    - alias: {{ default "al2023@v20251007" $config.amiAlias }}
+    {{- if $config.amiAlias }}
+    - alias: {{ $config.amiAlias }}
+    {{- else if eq (default "AL2023" $config.amiFamily) "AL2023" }}
+    - alias: al2023@v20251007
+    {{- else if eq $config.amiFamily "Bottlerocket" }}
+    - alias: bottlerocket@v1
+    {{- end }}
   blockDeviceMappings:
     {{- range $deviceName, $deviceConfig := $config.blockDeviceMappings }}
     - deviceName: {{ $deviceName | quote }}
