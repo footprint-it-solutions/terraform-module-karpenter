@@ -131,3 +131,15 @@ variable "bottlerocket_extra_requirements" {
   type        = string
   default     = "[]"
 }
+
+variable "al2023_node_pool_weight" {
+  description = "Weight for AL2023 NodePool to control scheduling priority"
+  type        = number
+  default     = 10
+}
+
+variable "bottlerocket_node_pool_weight" {
+  description = "Weight for Bottlerocket NodePool to control scheduling priority"
+  type        = number
+  default     = 20
+}

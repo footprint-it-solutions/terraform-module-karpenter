@@ -36,5 +36,3 @@ bottlerocket:
 
 al2023UserData: ""
 bottlerocketUserData: ""
-
-replicas: 1
