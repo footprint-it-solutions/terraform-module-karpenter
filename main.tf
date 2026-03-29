@@ -73,11 +73,11 @@ resource "helm_release" "extras" {
   set_list = [
     {
       name  = "allowedArch"
-      value = var.allowed_arch
+      value = tolist(var.allowed_arch)
     },
     {
       name  = "excludedInstanceSizes"
-      value = var.excluded_instance_sizes
+      value = tolist(var.excluded_instance_sizes)
     }
   ]
 
