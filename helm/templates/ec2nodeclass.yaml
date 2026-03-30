@@ -45,7 +45,7 @@ metadata:
 spec:
   amiFamily: Bottlerocket
   amiSelectorTerms:
-    - alias: bottlerocket@v1
+    - alias: bottlerocket@latest
   blockDeviceMappings:
     {{- range $deviceName, $config := index .Values.blockDeviceMappings "bottlerocket" }}
     - deviceName: {{ $deviceName | quote }}
