@@ -1,5 +1,6 @@
 terraform {
   required_providers {
+    aws        = {}
     helm       = {}
     kubernetes = {}
   }
@@ -24,6 +25,10 @@ resource "helm_release" "this" {
     {
       name  = "settings.clusterName"
       value = var.cluster_name
+    },
+    {
+      name  = "settings.interruptionQueue"
+      value = aws_sqs_queue.karpenter.name
     }
   ], [
     for gate, enabled in var.feature_gates : {
