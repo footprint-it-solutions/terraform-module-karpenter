@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-03-30
+
+### Added
+
+- Added an SQS queue and EventBridge rules to support Karpenter native interruption handling (Spot interruptions, rebalance recommendations, etc.).
+- Added resource-level tagging conditions and regional restrictions to EC2 and SSM permissions.
+
+### Changed
+
+- Upgraded Bottlerocket AMI selector alias from `v1` to `latest` in `EC2NodeClass`.
+- Refactored IAM policy for the Karpenter controller to follow the principle of least privilege.
+- Broken down monolithic IAM statements into scoped actions for resource discovery and node lifecycle management.
+
 ## [2.2.1] - 2026-03-29
 
 ### Added
@@ -32,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add metadata options for ec2nodeclass with override for httpPutResponseHopLimit to allow access to Instance Metadata Service (IMDS) from EKS pods. 
+- Add metadata options for ec2nodeclass with override for httpPutResponseHopLimit to allow access to Instance Metadata Service (IMDS) from EKS pods.
 
 ## [2.1.1] - 2026-01-14
 
