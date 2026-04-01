@@ -94,14 +94,22 @@ expireAfter: ${var.expire_after}
 imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
 imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
 
+nodePoolWeight:
+  al2023: ${var.al2023_node_pool_weight}
+  bottlerocket: ${var.bottlerocket_node_pool_weight}
+
 al2023:
   enabled: ${var.enable_al2023}
-  topologySpreadConstraints: ${var.al2023_topology_spread_constraints}
-  extraRequirements: ${var.al2023_extra_requirements}
+  topologySpreadConstraints:
+${indent(4, var.al2023_topology_spread_constraints)}
+  extraRequirements:
+${indent(4, var.al2023_extra_requirements)}
 bottlerocket:
   enabled: ${var.enable_bottlerocket}
-  topologySpreadConstraints: ${var.bottlerocket_topology_spread_constraints}
-  extraRequirements: ${var.bottlerocket_extra_requirements}
+  topologySpreadConstraints:
+${indent(4, var.bottlerocket_topology_spread_constraints)}
+  extraRequirements:
+${indent(4, var.bottlerocket_extra_requirements)}
 
 al2023UserData: |-
 ${indent(2, var.al2023_userdata)}
