@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.4.0] - 2026-04-01
+
+### Added
+
+- Added k3s support.
+
+### Changed
+
+- Made `SecurityGroupPolicy` conditional on `.Values.nodeSecurityGroupId` to ensure it is only rendered when a security group ID is provided.
+
 ## [2.3.0] - 2026-03-30
 
 ### Added
