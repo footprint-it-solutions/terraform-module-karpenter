@@ -90,6 +90,7 @@ resource "helm_release" "extras" {
     file("${path.module}/helm/values.yaml"),
     <<-EOT
 ---
+consolidateAfter: ${var.consolidate_after}
 expireAfter: ${var.expire_after}
 imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
 imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}

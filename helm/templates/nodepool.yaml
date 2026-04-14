@@ -9,7 +9,7 @@ metadata:
 spec:
   weight: {{ .Values.nodePoolWeight.al2023 }}
   disruption:
-    consolidateAfter: 30s
+    consolidateAfter: {{ .Values.consolidateAfter }}
     consolidationPolicy: WhenEmptyOrUnderutilized
   template:
     spec:
@@ -71,7 +71,7 @@ metadata:
 spec:
   weight: {{ .Values.nodePoolWeight.bottlerocket }}
   disruption:
-    consolidateAfter: 30s
+    consolidateAfter: {{ .Values.consolidateAfter }}
     consolidationPolicy: WhenEmptyOrUnderutilized
   template:
     spec:

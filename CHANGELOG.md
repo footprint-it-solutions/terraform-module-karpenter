@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.4.0] - 2026-04-14
+
+### Added
+
+- Added `consolidate_after` variable to allow configurable consolidation delay.
+
+### Changed
+
+- Replaced hardcoded `consolidateAfter` with a Helm value.
+- Increased the default `consolidateAfter` to 120s.
+
 ## [2.3.0] - 2026-03-30
 
 ### Added

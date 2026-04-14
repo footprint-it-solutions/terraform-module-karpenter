@@ -32,6 +32,12 @@ variable "aws_region" {
   type        = string
 }
 
+variable "consolidate_after" {
+  description = "Controls how long Karpenter waits before consolidating nodes"
+  type        = string
+  default     = "120s"
+}
+
 variable "expire_after" {
   description = "This ensures nodes are recycled weekly, preventing the accumulation of stale images over long periods."
   type        = string
