@@ -25,6 +25,8 @@ nodePoolWeight:
   al2023: 10
   bottlerocket: 20
 
+consolidateAfter: 120s
+
 al2023:
   enabled: true
   topologySpreadConstraints: []
