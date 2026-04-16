@@ -114,6 +114,12 @@ variable "enable_bottlerocket" {
   default     = true
 }
 
+variable "node_pools" {
+  description = "Map of NodePool definitions"
+  type        = any
+  default     = {}
+}
+
 variable "al2023_topology_spread_constraints" {
   description = "Topology spread constraints for AL2023 NodePool (YAML string)"
   type        = string
