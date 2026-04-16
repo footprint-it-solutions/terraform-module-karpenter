@@ -121,3 +121,65 @@ spec:
         {{- toYaml .Values.bottlerocket.extraRequirements | nindent 8 }}
         {{- end }}
 {{- end }}
+
+{{- range $name, $config := .Values.nodePools }}
+---
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  labels:
+    karpenter.sh/nodepool: {{ $name }}
+  name: {{ $name }}
+spec:
+  template:
+    spec:
+      expireAfter: {{ default $.Values.expireAfter $config.expireAfter }}
+      nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
+        name: {{ default $name $config.nodeClassRef }}
+      kubelet:
+        # High threshold for Garbage Collection (GC) to prevent disk pressure (eviction usually starts at 85%)
+        imageGCHighThresholdPercent: {{ default $.Values.imageGCHighThresholdPercent $config.imageGCHighThresholdPercent }}
+        # Low threshold for GC to ensure ample space for new images
+        imageGCLowThresholdPercent: {{ default $.Values.imageGCLowThresholdPercent $config.imageGCLowThresholdPercent }}
+      {{- if $config.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml $config.topologySpreadConstraints | nindent 8 }}
+      {{- end }}
+      requirements:
+        - key: "karpenter.k8s.aws/instance-hypervisor"
+          operator: In
+          values: ["nitro"]
+        - key: kubernetes.io/arch
+          operator: In
+          values:
+          {{- range $.Values.allowedArch }}
+            - {{ . }}
+          {{- end }}
+        - key: kubernetes.io/os
+          operator: In
+          values: ["linux"]
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values: ["on-demand", "spot"]
+        - key: karpenter.k8s.aws/instance-size
+          operator: NotIn
+          values:
+          {{- range $.Values.excludedInstanceSizes }}
+            - {{ . }}
+          {{- end }}
+        - key: karpenter.k8s.aws/instance-category
+          operator: In
+          values: ["c", "g", "m", "r"]
+        - key: karpenter.k8s.aws/instance-generation
+          operator: Gt
+          values: ["2"]
+        {{- if $config.extraRequirements }}
+        {{- toYaml $config.extraRequirements | nindent 8 }}
+        {{- end }}
+  disruption:
+    consolidateAfter: {{ default "30s" $config.consolidateAfter }}
+    consolidationPolicy: {{ default "WhenEmptyOrUnderutilized" $config.consolidationPolicy }}
+  weight: {{ default 10 $config.weight }}
+{{- end }}

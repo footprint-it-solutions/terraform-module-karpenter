@@ -73,3 +73,47 @@ spec:
     - tags:
         karpenter.sh/discovery: {{ .Values.clusterName }}
 {{- end }}
+
+{{- range $name, $config := .Values.nodeClasses }}
+---
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: {{ $name }}
+spec:
+  amiFamily: {{ default "AL2023" $config.amiFamily }}
+  amiSelectorTerms:
+    {{- if $config.amiAlias }}
+    - alias: {{ $config.amiAlias }}
+    {{- else if eq (default "AL2023" $config.amiFamily) "AL2023" }}
+    - alias: al2023@v20251007
+    {{- else if eq $config.amiFamily "Bottlerocket" }}
+    - alias: bottlerocket@v1
+    {{- end }}
+  blockDeviceMappings:
+    {{- range $deviceName, $deviceConfig := $config.blockDeviceMappings }}
+    - deviceName: {{ $deviceName | quote }}
+      ebs:
+        deleteOnTermination: {{ default true $deviceConfig.deleteOnTermination }}
+        volumeSize: {{ $deviceConfig.volumeSize }}
+        volumeType: {{ default "gp3" $deviceConfig.volumeType }}
+    {{- end }}
+  kubelet:
+    maxPods: {{ default 110 $config.maxPods }}
+  metadataOptions:
+    httpEndpoint: enabled
+    httpProtocolIPv6: disabled
+    httpPutResponseHopLimit: 2 # This is changed to enable IMDS access from containers not on the host network
+    httpTokens: required
+  {{- if $config.userData }}
+  userData: |-
+{{ $config.userData | indent 4 }}
+  {{- end }}
+  role: eks-node
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: {{ $.Values.clusterName }}
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: {{ $.Values.clusterName }}
+{{- end }}

@@ -1,4 +1,13 @@
 ---
+# Default Karpenter global settings
+expireAfter: 168h
+imageGCHighThresholdPercent: 70
+imageGCLowThresholdPercent: 50
+
+# Dynamic NodePool and EC2NodeClass configuration
+nodePools: {}
+nodeClasses: {}
+
 allowedArch:
   - amd64
 blockDeviceMappings:

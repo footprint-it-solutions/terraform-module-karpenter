@@ -78,8 +78,20 @@ variable "node_security_group_id" {
   type        = string
 }
 
+variable "node_pools" {
+  description = "A map of NodePool configurations to create. If provided, these will be created in addition to (or instead of) the default AL2023 and Bottlerocket pools."
+  type        = any
+  default     = {}
+}
+
+variable "node_classes" {
+  description = "A map of EC2NodeClass configurations to create. If provided, these will be created in addition to (or instead of) the default AL2023 and Bottlerocket classes."
+  type        = any
+  default     = {}
+}
+
 variable "block_device_mappings" {
-  description = "Block device mappings for the EC2NodeClasses"
+  description = "(Deprecated) Block device mappings for the EC2NodeClasses. Use 'node_classes' for more granular configuration."
   type        = string
   default     = ""
 }
