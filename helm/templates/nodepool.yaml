@@ -17,7 +17,7 @@ spec:
       nodeClassRef:
         group: karpenter.k8s.aws
         kind: EC2NodeClass
-        name: {{ default "al2023" $pool.amiFamily | lower }}
+        name: {{ $name }}
       kubelet:
         imageGCHighThresholdPercent: {{ default $.Values.imageGCHighThresholdPercent $pool.imageGCHighThresholdPercent }}
         imageGCLowThresholdPercent: {{ default $.Values.imageGCLowThresholdPercent $pool.imageGCLowThresholdPercent }}
