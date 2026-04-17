@@ -1,3 +1,67 @@
+{{- range $name, $pool := .Values.nodePools }}
+---
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  labels:
+    karpenter.sh/nodepool: {{ $name }}
+  name: {{ $name }}
+spec:
+  weight: {{ default 10 $pool.weight }}
+  disruption:
+    consolidateAfter: {{ default $.Values.consolidateAfter $pool.consolidateAfter }}
+    consolidationPolicy: {{ default "WhenEmptyOrUnderutilized" $pool.consolidationPolicy }}
+  template:
+    spec:
+      expireAfter: {{ default $.Values.expireAfter $pool.expireAfter }}
+      nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
+        name: {{ $name }}
+      kubelet:
+        imageGCHighThresholdPercent: {{ default $.Values.imageGCHighThresholdPercent $pool.imageGCHighThresholdPercent }}
+        imageGCLowThresholdPercent: {{ default $.Values.imageGCLowThresholdPercent $pool.imageGCLowThresholdPercent }}
+      {{- if $pool.taints }}
+      taints:
+        {{- toYaml $pool.taints | nindent 8 }}
+      {{- end }}
+      {{- if $pool.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml $pool.topologySpreadConstraints | nindent 8 }}
+      {{- end }}
+      requirements:
+        - key: "karpenter.k8s.aws/instance-hypervisor"
+          operator: In
+          values: ["nitro"]
+        - key: kubernetes.io/arch
+          operator: In
+          values:
+          {{- range $.Values.allowedArch }}
+            - {{ . }}
+          {{- end }}
+        - key: kubernetes.io/os
+          operator: In
+          values: ["linux"]
+        - key: karpenter.sh/capacity-type
+          operator: In
+          values: ["on-demand", "spot"]
+        - key: karpenter.k8s.aws/instance-size
+          operator: NotIn
+          values:
+          {{- range $.Values.excludedInstanceSizes }}
+            - {{ . }}
+          {{- end }}
+        - key: karpenter.k8s.aws/instance-category
+          operator: In
+          values: ["c", "g", "m", "r"]
+        - key: karpenter.k8s.aws/instance-generation
+          operator: Gt
+          values: ["2"]
+        {{- if $pool.requirements }}
+        {{- toYaml $pool.requirements | nindent 8 }}
+        {{- end }}
+{{- end }}
+
 {{- if .Values.al2023.enabled }}
 ---
 apiVersion: karpenter.sh/v1

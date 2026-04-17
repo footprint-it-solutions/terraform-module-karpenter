@@ -95,6 +95,8 @@ expireAfter: ${var.expire_after}
 imageGCHighThresholdPercent: ${var.image_gc_high_threshold_percent}
 imageGCLowThresholdPercent: ${var.image_gc_low_threshold_percent}
 
+nodePools: ${jsonencode(var.node_pools)}
+
 al2023:
   enabled: ${var.enable_al2023}
   topologySpreadConstraints: ${var.al2023_topology_spread_constraints}
