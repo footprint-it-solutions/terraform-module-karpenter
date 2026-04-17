@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added support for multiple NodePools via the `node_pools` variable.
+- Dynamically generate NodePool resources from the `node_pools` map in the Helm chart.
+
 ## [2.4.0] - 2026-04-14
 
 ### Added
