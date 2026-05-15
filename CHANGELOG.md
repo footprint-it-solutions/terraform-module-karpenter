@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Increased default controller resource limits (CPU: 500m, Memory: 1Gi) and requests (CPU: 500m, Memory: 512Mi) in `values.yaml`.
+
 ## [2.5.0] - 2026-04-17
 
 ### Added
