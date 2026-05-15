@@ -1,11 +1,11 @@
 controller:
   resources:
     limits:
-      memory: 512Mi
-      cpu: 250m
+      memory: 1Gi
+      cpu: 500m
     requests:
-      memory: 256Mi
-      cpu: 250m
+      memory: 512Mi
+      cpu: 500m
 # We need to use the VPC DNS resolver as CoreDNS will not be available in
 # a brand new cluster without any nodes.
 dnsPolicy: Default
