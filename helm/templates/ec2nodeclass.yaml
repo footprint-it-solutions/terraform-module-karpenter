@@ -52,7 +52,7 @@ metadata:
 spec:
   amiFamily: AL2023
   amiSelectorTerms:
-    - alias: al2023@v20251007
+    - alias: al2023@latest
   blockDeviceMappings:
     {{- range $deviceName, $config := index .Values.blockDeviceMappings "al2023" }}
     - deviceName: {{ $deviceName | quote }}
