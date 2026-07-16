@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.7.0] - 2026-07-16
+
+### Added
+
+- Added `karpenter_version` variable to allow configuring the Karpenter Helm chart version (defaults to `1.14.0`).
+
 ## [2.6.0] - 2026-06-29
 
 ### Changed

@@ -143,3 +143,9 @@ variable "bottlerocket_extra_requirements" {
   type        = string
   default     = "[]"
 }
+
+variable "karpenter_version" {
+  description = "The version of the Karpenter Helm chart to deploy. This can be overridden to utilise a specific version."
+  type        = string
+  default     = "1.14.0"
+}

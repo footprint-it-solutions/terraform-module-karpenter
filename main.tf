@@ -15,7 +15,7 @@ resource "helm_release" "this" {
   namespace        = "kube-system"
   repository       = "oci://public.ecr.aws/karpenter"
   take_ownership   = true
-  version          = "1.8.2"
+  version          = var.karpenter_version
 
   set = concat([
     {
