@@ -41,4 +41,17 @@ bottlerocket:
 al2023UserData: ""
 bottlerocketUserData: ""
 
+# Portability & customization variables
+nodeIamRoleName: eks-node
+subnetSelectorTerms: null
+securityGroupSelectorTerms: null
+al2023AmiSelectorTerms: null
+bottlerocketAmiSelectorTerms: null
+kubeletMaxPods: 110
+metadataOptions:
+  httpEndpoint: enabled
+  httpProtocolIPv6: disabled
+  httpPutResponseHopLimit: 2
+  httpTokens: required
+
 replicas: 1

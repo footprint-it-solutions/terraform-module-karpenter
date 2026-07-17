@@ -7,7 +7,21 @@ metadata:
 spec:
   amiFamily: {{ default "AL2023" $pool.amiFamily }}
   amiSelectorTerms:
-    - alias: {{ if eq (default "AL2023" $pool.amiFamily | upper) "AL2023" }}al2023@v20251007{{ else }}bottlerocket@latest{{ end }}
+    {{- if $pool.amiSelectorTerms }}
+    {{- toYaml $pool.amiSelectorTerms | nindent 4 }}
+    {{- else if eq (default "AL2023" $pool.amiFamily | upper) "AL2023" }}
+      {{- if $.Values.al2023AmiSelectorTerms }}
+      {{- toYaml $.Values.al2023AmiSelectorTerms | nindent 4 }}
+      {{- else }}
+    - alias: al2023@v20251007
+      {{- end }}
+    {{- else }}
+      {{- if $.Values.bottlerocketAmiSelectorTerms }}
+      {{- toYaml $.Values.bottlerocketAmiSelectorTerms | nindent 4 }}
+      {{- else }}
+    - alias: bottlerocket@latest
+      {{- end }}
+    {{- end }}
   blockDeviceMappings:
     {{- range $deviceName, $config := index $.Values.blockDeviceMappings (default "al2023" $pool.amiFamily | lower) }}
     - deviceName: {{ $deviceName | quote }}
@@ -17,12 +31,9 @@ spec:
         volumeType: {{ default "gp3" $config.volumeType }}
     {{- end }}
   kubelet:
-    maxPods: 110
+    maxPods: {{ default $.Values.kubeletMaxPods $pool.kubeletMaxPods }}
   metadataOptions:
-    httpEndpoint: enabled
-    httpProtocolIPv6: disabled
-    httpPutResponseHopLimit: 2 # This is changed to enable IMDS access from containers not on the host network
-    httpTokens: required
+    {{- toYaml $.Values.metadataOptions | nindent 4 }}
   {{- if eq (default "AL2023" $pool.amiFamily | upper) "AL2023" }}
   {{- if $.Values.al2023UserData }}
   userData: |-
@@ -34,13 +45,21 @@ spec:
 {{ $.Values.bottlerocketUserData | indent 4 }}
   {{- end }}
   {{- end }}
-  role: eks-node
+  role: {{ $.Values.nodeIamRoleName }}
   securityGroupSelectorTerms:
+    {{- if $.Values.securityGroupSelectorTerms }}
+    {{- toYaml $.Values.securityGroupSelectorTerms | nindent 4 }}
+    {{- else }}
     - tags:
         karpenter.sh/discovery: {{ $.Values.clusterName }}
+    {{- end }}
   subnetSelectorTerms:
+    {{- if $.Values.subnetSelectorTerms }}
+    {{- toYaml $.Values.subnetSelectorTerms | nindent 4 }}
+    {{- else }}
     - tags:
         karpenter.sh/discovery: {{ $.Values.clusterName }}
+    {{- end }}
 {{- end }}
 
 {{- if .Values.al2023.enabled }}
@@ -52,7 +71,11 @@ metadata:
 spec:
   amiFamily: AL2023
   amiSelectorTerms:
+    {{- if .Values.al2023AmiSelectorTerms }}
+    {{- toYaml .Values.al2023AmiSelectorTerms | nindent 4 }}
+    {{- else }}
     - alias: al2023@latest
+    {{- end }}
   blockDeviceMappings:
     {{- range $deviceName, $config := index .Values.blockDeviceMappings "al2023" }}
     - deviceName: {{ $deviceName | quote }}
@@ -62,23 +85,28 @@ spec:
         volumeType: {{ default "gp3" $config.volumeType }}
     {{- end }}
   kubelet:
-    maxPods: 110
+    maxPods: {{ .Values.kubeletMaxPods }}
   metadataOptions:
-    httpEndpoint: enabled
-    httpProtocolIPv6: disabled
-    httpPutResponseHopLimit: 2 # This is changed to enable IMDS access from containers not on the host network
-    httpTokens: required
+    {{- toYaml .Values.metadataOptions | nindent 4 }}
   {{- if .Values.al2023UserData }}
   userData: |-
 {{ .Values.al2023UserData | indent 4 }}
   {{- end }}
-  role: eks-node
+  role: {{ .Values.nodeIamRoleName }}
   securityGroupSelectorTerms:
+    {{- if .Values.securityGroupSelectorTerms }}
+    {{- toYaml .Values.securityGroupSelectorTerms | nindent 4 }}
+    {{- else }}
     - tags:
         karpenter.sh/discovery: {{ .Values.clusterName }}
+    {{- end }}
   subnetSelectorTerms:
+    {{- if .Values.subnetSelectorTerms }}
+    {{- toYaml .Values.subnetSelectorTerms | nindent 4 }}
+    {{- else }}
     - tags:
         karpenter.sh/discovery: {{ .Values.clusterName }}
+    {{- end }}
 {{- end }}
 
 {{- if .Values.bottlerocket.enabled }}
@@ -90,7 +118,11 @@ metadata:
 spec:
   amiFamily: Bottlerocket
   amiSelectorTerms:
+    {{- if .Values.bottlerocketAmiSelectorTerms }}
+    {{- toYaml .Values.bottlerocketAmiSelectorTerms | nindent 4 }}
+    {{- else }}
     - alias: bottlerocket@latest
+    {{- end }}
   blockDeviceMappings:
     {{- range $deviceName, $config := index .Values.blockDeviceMappings "bottlerocket" }}
     - deviceName: {{ $deviceName | quote }}
@@ -100,21 +132,26 @@ spec:
         volumeType: {{ default "gp3" $config.volumeType }}
     {{- end }}
   kubelet:
-    maxPods: 110
+    maxPods: {{ .Values.kubeletMaxPods }}
   metadataOptions:
-    httpEndpoint: enabled
-    httpProtocolIPv6: disabled
-    httpPutResponseHopLimit: 2 # This is changed to enable IMDS access from containers not on the host network
-    httpTokens: required
+    {{- toYaml .Values.metadataOptions | nindent 4 }}
   {{- if .Values.bottlerocketUserData }}
   userData: |-
 {{ .Values.bottlerocketUserData | indent 4 }}
   {{- end }}
-  role: eks-node
+  role: {{ .Values.nodeIamRoleName }}
   securityGroupSelectorTerms:
+    {{- if .Values.securityGroupSelectorTerms }}
+    {{- toYaml .Values.securityGroupSelectorTerms | nindent 4 }}
+    {{- else }}
     - tags:
         karpenter.sh/discovery: {{ .Values.clusterName }}
+    {{- end }}
   subnetSelectorTerms:
+    {{- if .Values.subnetSelectorTerms }}
+    {{- toYaml .Values.subnetSelectorTerms | nindent 4 }}
+    {{- else }}
     - tags:
         karpenter.sh/discovery: {{ .Values.clusterName }}
+    {{- end }}
 {{- end }}
