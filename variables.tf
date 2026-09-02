@@ -149,3 +149,102 @@ variable "karpenter_version" {
   type        = string
   default     = "1.14.0"
 }
+
+variable "node_iam_role_name" {
+  description = "The name of the IAM role for Karpenter-managed EKS nodes"
+  type        = string
+  default     = "eks-node"
+}
+
+variable "controller_resources" {
+  description = "Limits and requests for the Karpenter controller container resources"
+  type        = any
+  default = {
+    limits = {
+      cpu    = "250m"
+      memory = "512Mi"
+    }
+    requests = {
+      cpu    = "250m"
+      memory = "256Mi"
+    }
+  }
+}
+
+variable "controller_replicas" {
+  description = "Number of Karpenter controller replicas to run in the cluster"
+  type        = number
+  default     = 1
+}
+
+variable "controller_node_selector" {
+  description = "Node selector for Karpenter controller pods"
+  type        = map(string)
+  default     = {}
+}
+
+variable "controller_tolerations" {
+  description = "List of node tolerations for Karpenter controller pods"
+  type        = list(any)
+  default     = []
+}
+
+variable "controller_affinity" {
+  description = "Affinity rules for Karpenter controller pods"
+  type        = any
+  default     = {}
+}
+
+variable "subnet_selector_terms" {
+  description = "Custom subnet selector terms for the default AL2023 and Bottlerocket EC2NodeClasses. If not specified, defaults to discovery by cluster name tag."
+  type        = list(any)
+  default     = null
+}
+
+variable "security_group_selector_terms" {
+  description = "Custom security group selector terms for the default AL2023 and Bottlerocket EC2NodeClasses. If not specified, defaults to discovery by cluster name tag."
+  type        = list(any)
+  default     = null
+}
+
+variable "al2023_ami_selector_terms" {
+  description = "Custom AMI selector terms for the default AL2023 EC2NodeClass"
+  type        = list(any)
+  default     = null
+}
+
+variable "bottlerocket_ami_selector_terms" {
+  description = "Custom AMI selector terms for the default Bottlerocket EC2NodeClass"
+  type        = list(any)
+  default     = null
+}
+
+variable "al2023_node_pool_weight" {
+  description = "The preference weight assigned to the default AL2023 NodePool"
+  type        = number
+  default     = 10
+}
+
+variable "bottlerocket_node_pool_weight" {
+  description = "The preference weight assigned to the default Bottlerocket NodePool"
+  type        = number
+  default     = 20
+}
+
+variable "kubelet_max_pods" {
+  description = "Configures the default maxPods value for EKS nodes provisioned by the default NodePools"
+  type        = number
+  default     = 110
+}
+
+variable "metadata_options" {
+  description = "The instance metadata options (IMDS) configured on provisioned nodes"
+  type        = map(any)
+  default = {
+    httpEndpoint            = "enabled"
+    httpProtocolIPv6        = "disabled"
+    httpPutResponseHopLimit = 2
+    httpTokens              = "required"
+  }
+}
+

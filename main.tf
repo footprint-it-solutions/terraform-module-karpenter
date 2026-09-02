@@ -38,7 +38,16 @@ resource "helm_release" "this" {
   ])
 
   values = [
-    file("${path.module}/values.yaml")
+    file("${path.module}/values.yaml"),
+    <<-EOT
+---
+replicas: ${var.controller_replicas}
+controller:
+  resources: ${jsonencode(var.controller_resources)}
+  nodeSelector: ${jsonencode(var.controller_node_selector)}
+  tolerations: ${jsonencode(var.controller_tolerations)}
+  affinity: ${jsonencode(var.controller_affinity)}
+    EOT
   ]
 }
 
@@ -114,6 +123,17 @@ ${indent(2, var.bottlerocket_userdata)}
 %{if var.block_device_mappings != ""~}
 ${var.block_device_mappings}
 %{endif~}
+
+nodeIamRoleName: ${var.node_iam_role_name}
+subnetSelectorTerms: ${jsonencode(var.subnet_selector_terms)}
+securityGroupSelectorTerms: ${jsonencode(var.security_group_selector_terms)}
+al2023AmiSelectorTerms: ${jsonencode(var.al2023_ami_selector_terms)}
+bottlerocketAmiSelectorTerms: ${jsonencode(var.bottlerocket_ami_selector_terms)}
+nodePoolWeight:
+  al2023: ${var.al2023_node_pool_weight}
+  bottlerocket: ${var.bottlerocket_node_pool_weight}
+kubeletMaxPods: ${var.kubelet_max_pods}
+metadataOptions: ${jsonencode(var.metadata_options)}
     EOT
   ]
 }

@@ -245,7 +245,7 @@ data "aws_iam_policy_document" "policy" {
     actions = [
       "iam:PassRole",
     ]
-    resources = ["arn:aws:iam::${var.aws_account_id}:role/eks-node"]
+    resources = ["arn:aws:iam::${var.aws_account_id}:role/${var.node_iam_role_name}"]
     condition {
       test     = "StringEquals"
       variable = "iam:PassedToService"
